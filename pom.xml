@@ -56,7 +56,9 @@ All Rights Reserved
     </dependency>
   </dependencies>
   <name>Jacomax</name>
-  <description>TODO</description>
+  <description>
+    Jacomax (Java Connector for Maxima) is a basic Java interface for the Maxima computer algebra system.
+  </description>
   <inceptionYear>2009</inceptionYear>
   <organization>
     <name>The University of Edinburgh</name>
@@ -84,6 +86,15 @@ All Rights Reserved
       <timezone>0</timezone>
     </developer>
   </developers>
+  <scm>
+    <connection>scm:svn:https://jacomax.svn.sourceforge.net/svnroot/jacomax/trunk</connection>
+    <developerConnection>scm:svn:https://jacomax.svn.sourceforge.net/svnroot/jacomax/trunk</developerConnection>
+    <url>http://jacomax.svn.sourceforge.net/svnroot/jacomax/trunk</url>
+  </scm>
+  <issueManagement>
+    <system>sourceforge</system>
+    <url>http://sourceforge.net/tracker/?group_id=311139</url>
+  </issueManagement>
   <distributionManagement>
     <!-- (This is not intended for general use!) -->
     <repository>
@@ -215,6 +226,7 @@ All Rights Reserved
           <windowtitle>Jacomax API Documentation</windowtitle>
           <doctitle>Jacomax API Documentation</doctitle>
           <bottom><![CDATA[
+            <p><a href="https://sourceforge.net/projects/jacomax/" target="_top">Jacomax</a></p>
             <p>Copyright &#xa9; 2010 The School of Physics and Astronomy, The University of Edinburgh.</p>
             <p style="font-style:italic">The University of Edinburgh is a charitable body, registered in Scotland, with registration number SC005336.</p>
           ]]></bottom>
