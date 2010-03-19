@@ -1,0 +1,250 @@
+<?xml version="1.0"?>
+<!--
+
+$Id$
+
+Copyright (c) 2010, The University of Edinburgh
+All Rights Reserved
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.ed.ph.jacomax</groupId>
+  <artifactId>jacomax</artifactId>
+  <version>0.2-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <properties>
+    <junit.version>4.8.1</junit.version>
+    <slf4j.version>1.5.10</slf4j.version>
+    <log4j.version>1.2.14</log4j.version>
+  </properties>
+  <repositories>
+    <repository>
+      <id>www2.ph.ed.ac.uk</id>
+      <url>http://www2.ph.ed.ac.uk/maven2</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <name>Jacomax</name>
+  <description>TODO</description>
+  <inceptionYear>2009</inceptionYear>
+  <organization>
+    <name>The University of Edinburgh</name>
+    <url>http://www.ed.ac.uk</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>BSD License (3 clause)</name>
+      <url>LICENSE.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>davemckain</id>
+      <name>David McKain</name>
+      <email>david.mckain&#xa0;[at]&#xa0;ed.ac.uk</email>
+      <url>http://www2.ph.ed.ac.uk/~dmckain/</url>
+      <organization>School of Physics and Astronomy, University of Edinburgh</organization>
+      <organizationUrl>http://www.ph.ed.ac.uk</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>0</timezone>
+    </developer>
+  </developers>
+  <distributionManagement>
+    <!-- (This is not intended for general use!) -->
+    <repository>
+      <id>www2.ph.ed.ac.uk</id>
+      <url>file:///Disk/lust3/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <id>www2.ph.ed.ac.uk</id>
+      <url>file:///Disk/lust3/maven2</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*Tests.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assemble/bin.xml</descriptor>
+          </descriptors>
+        </configuration>
+      </plugin>
+      <!--
+      Plugin for running the samples.
+      Example usage:
+
+      $ mvn exec:exec -Dexample.class=uk.ac.ed.ph.jacomax.samples.DiagnosticExample
+
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <executable>java</executable>
+          <classpathScope>runtime</classpathScope>
+          <arguments>
+            <argument>-classpath</argument>
+            <classpath/>
+            <argument>${example.class}</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <!--UNUSED <report>cim</report> -->
+              <!-- (Hanging due to a bad dependency URL) -->
+              <!--
+              <report>dependencies</report>
+              <report>dependency-convergence</report>
+              <report>dependency-management</report>
+              -->
+              <report>help</report>
+              <report>index</report>
+              <report>issue-tracking</report>
+              <report>license</report>
+              <!-- UNUSED <report>mailing-list</report>-->
+              <report>plugin-management</report>
+              <report>plugins</report>
+              <report>project-team</report>
+              <report>scm</report>
+              <report>summary</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+            <inherited>false</inherited>
+          </reportSet>
+        </reportSets>
+        <configuration>
+          <!--
+          Hmmm... I seem to have to set this, even though it's deprecated.
+          See MJAVADOC-230 in the Maven JIRA.
+          -->
+          <aggregate>true</aggregate>
+          <linksource>yes</linksource>
+          <show>private</show>
+          <author>true</author>
+          <version>true</version>
+          <use>true</use>
+          <encoding>UTF-8</encoding>
+          <docencoding>UTF-8</docencoding>
+          <windowtitle>Jacomax API Documentation</windowtitle>
+          <doctitle>Jacomax API Documentation</doctitle>
+          <bottom><![CDATA[
+            <p>Copyright &#xa9; 2010 The School of Physics and Astronomy, The University of Edinburgh.</p>
+            <p style="font-style:italic">The University of Edinburgh is a charitable body, registered in Scotland, with registration number SC005336.</p>
+          ]]></bottom>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <configuration>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-changelog-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-changes-plugin</artifactId>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>changes-report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

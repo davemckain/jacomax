@@ -1,0 +1,119 @@
+# $Id$
+#
+# Copyright (c) 2010, The University of Edinburgh.
+# All Rights Reserved
+#
+###############################################################################
+#
+# Sample jacomax.properties file which the MaximaPropertiesConfigurer class
+# can read in to find out where Maxima lives and how it should be called up.
+#
+# Usage Notes
+# ===========
+#
+# * The default constructor of MaximaPropertiesConfigurer will search for
+# a file called jacomax.properties firstly in the current directory, then in
+# your home directory, then finally in the ClassPath. (This behaviour is
+# probably suitable for most general uses. For more control over how this
+# works, please refer to the documentation for MaximaPropertiesConfigurer for
+# full details.)
+#
+# * You can use this file as a template for your own jacomax.properties.
+# You will need to fill in a few details, as shown below.
+#
+# * If you want to run the Jacomax test suite, you must make a copy of this
+# file called jacomax.properties and store it in your home directory
+# BEFORE running the test suite.
+#
+###############################################################################
+#
+# REQUIRED PROPERTIES
+# ===================
+#
+# You need to tell Jacomax where Maxima lives on your computer so that Jacomax
+# can run Maxima and communicate with it.
+#
+# Please consult the section that matches the type of computer you're using
+# and uncomment the appropriate configuration properties.
+#
+# Linux
+# -----
+#
+# Maxima is normally installed in /usr/bin/maxima, or somewhere similar, which
+# is a little shell script that gets everything up and running.
+#
+# Uncomment the following, making sure it points to your Maxima:
+#
+#jacomax.maxima.path=/usr/bin/maxima
+#
+# If you're an expert, you way want to directly invoke the appropriate Lisp
+# runtime yourself.
+#
+# You may pass additional command line arguments and environment variables
+# using optional properties of the following form:
+#
+#jacomax.maxima.arg0=
+#jacomax.maxima.arg1=
+#...
+#jacomax.maxima.env0=
+#jacomax.maxima.env1=
+#...
+#
+#
+# Mac OS X
+# --------
+#
+# If you installed Maxima in your Applications folder, then uncomment the following
+# line:
+#
+#jacomax.maxima.path=/Applications/Maxima.app/Contents/Resources/bin/maxima
+#
+# If you installed Maxima via MacPorts, then you will want to uncomment:
+#
+#jacomax.maxima.path=/opt/local/bin/maxima
+#jacomax.maxima.env0=PATH=/opt/local/bin\:/bin\:/usr/bin
+#
+# Consult the Linux section above if you want to pass additional command line
+# parameters or environment variables, or want to invoke a specific Lisp runtime.
+#
+#
+# Windows
+# -------
+#
+# If you have installed the Maxima via the self-contained installer from its
+# download page, then you'll want to uncomment the following line (and amend
+# the version number as appropriate):
+#
+#jacomax.maxima.path=C\:\\Program Files\\Maxima-5.20.1\\bin\\maxima.bat
+#
+# Please note that in this case, Jacomax will actually end up invoking:
+#
+# C:\Program Files\Maxima-5.20.1\lib\maxia\5.20.1\binary-gcl\maxima.exe ...
+#
+# with appropriate extra arguments so that it can safely kill the Maxima process
+# if it needs to. If this doesn't suit you or if you don't want to run Maxima with
+# GCL, then you should change this path to suit, passing any command line arguments
+# and/or environment variables as described in the Linux section.
+#
+###############################################################################
+#
+# OPTIONAL/ADVANCED PROPERTIES
+# ============================
+#
+# If you're using a character set other than US-ASCII, then uncomment and amend
+# the following to suit:
+#jacomax.maxima.charset=US-ASCII
+#
+#
+# Jacomax can kill the Maxima process if a call has not completed within a
+# certain time limit. This can be useful in preventing infinite loops, or
+# situations where Maxima wants further input that isn't being provided.
+#
+# The default values are specified below. Uncomment and amend if you want to
+# change these. You may need to play about with this to suit the computer
+# you're running this stuff from and the kinds of calls you're making.
+#
+# You can prevent this behaviour happening by setting a negative timeout.
+# This should be used with caution!
+#jacomax.default.call.timeout=20
+#jacomax.default.batch.timeout=60
