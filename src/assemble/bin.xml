@@ -15,12 +15,30 @@ All Rights Reserved
     <format>zip</format>
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
-  <dependencySets>
-    <dependencySet>
-      <unpack>false</unpack>
-      <scope>runtime</scope>
-    </dependencySet>
-  </dependencySets>
+  <moduleSets>
+    <moduleSet>
+      <includes>
+        <!--
+        NOTE: I'm just including the snuggletex-webapp as that
+        has dependencies on all other built artifacts and includes
+        them at once. If I add other artifacts, the assembly process
+        adds them to the ZIP file multiple times, which is annoying.
+        -->
+        <include>uk.ac.ed.ph.jacomax:jacomax</include>
+        <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
+      </includes>
+      <binaries>
+        <includeDependencies>true</includeDependencies>
+        <dependencySets>
+          <dependencySet>
+            <unpack>false</unpack>
+            <scope>runtime</scope>
+          </dependencySet>
+        </dependencySets>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
   <files>
     <file>
       <source>LICENSE.txt</source>

@@ -10,12 +10,17 @@ All Rights Reserved
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ed.ph.jacomax</groupId>
-  <artifactId>jacomax</artifactId>
+  <artifactId>jacomax-all</artifactId>
   <version>0.2-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
+  <modules>
+    <module>jacomax</module>
+    <module>jacomax-samples</module>
+    <module>jacomax-diagnostic</module>
+  </modules>
   <properties>
     <junit.version>4.8.1</junit.version>
-    <slf4j.version>1.5.10</slf4j.version>
+    <slf4j.version>1.5.11</slf4j.version>
     <log4j.version>1.2.14</log4j.version>
   </properties>
   <repositories>
@@ -30,31 +35,6 @@ All Rights Reserved
       </releases>
     </repository>
   </repositories>
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${log4j.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
   <name>Jacomax</name>
   <description>
     Jacomax (Java Connector for Maxima) is a basic Java interface for the Maxima computer algebra system.
@@ -144,30 +124,12 @@ All Rights Reserved
       </plugin>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
+        <!-- (Need a fairly recent version to fix bug with repeated artifacts in the ZIP) -->
+        <version>2.2-beta-5</version>
         <configuration>
           <descriptors>
             <descriptor>src/assemble/bin.xml</descriptor>
           </descriptors>
-        </configuration>
-      </plugin>
-      <!--
-      Plugin for running the samples.
-      Example usage:
-
-      $ mvn exec:exec -Dexample.class=uk.ac.ed.ph.jacomax.samples.DiagnosticExample
-
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <configuration>
-          <executable>java</executable>
-          <classpathScope>runtime</classpathScope>
-          <arguments>
-            <argument>-classpath</argument>
-            <classpath/>
-            <argument>${example.class}</argument>
-          </arguments>
         </configuration>
       </plugin>
     </plugins>
