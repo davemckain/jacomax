@@ -1,4 +1,4 @@
-/* $Id: JacomaxDiagnostic.java 5 2010-03-19 15:40:39Z davemckain $
+/* $Id$
  *
  * Copyright (c) 2010, The University of Edinburgh.
  * All Rights Reserved
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * (Might be useful for diagnosing and submitting bug reports.)
  *
  * @author  David McKain
- * @version $Revision: 5 $
+ * @version $Revision$
  */
 public class JacomaxDiagnostic {
     
