@@ -11,7 +11,7 @@ All Rights Reserved
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ed.ph.jacomax</groupId>
   <artifactId>jacomax-all</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2.0</version>
   <packaging>pom</packaging>
   <modules>
     <module>jacomax</module>
@@ -85,6 +85,16 @@ All Rights Reserved
       <id>www2.ph.ed.ac.uk</id>
       <url>file:///Disk/lust3/maven2</url>
     </snapshotRepository>
+    <site>
+      <!--
+      Reminder! Need to create a shell on sourceforge first before trying to do
+      a site deployment.
+
+      ssh -t davemckain,jacomax@shell.sourceforge.net create
+      -->
+      <id>sourceforge.net</id>
+      <url>scp://shell.sourceforge.net/home/groups/j/ja/jacomax/htdocs/maven</url>
+    </site>
   </distributionManagement>
   <build>
     <plugins>
@@ -99,15 +109,6 @@ All Rights Reserved
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
           <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <includes>
-            <include>**/*Test.java</include>
-            <include>**/*Tests.java</include>
-          </includes>
         </configuration>
       </plugin>
       <plugin>

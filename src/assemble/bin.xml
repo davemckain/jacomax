@@ -1,7 +1,6 @@
 <!--
 
-Assembly descriptor for the basic Jacomax bundle
-containing just the binaries.
+Assembly descriptor for the binary Jacomax bundle.
 
 $Id$
 
@@ -26,6 +25,7 @@ All Rights Reserved
         -->
         <include>uk.ac.ed.ph.jacomax:jacomax</include>
         <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
+        <include>uk.ac.ed.ph.jacomax:jacomax-diagnostic</include>
       </includes>
       <binaries>
         <includeDependencies>true</includeDependencies>
@@ -42,6 +42,10 @@ All Rights Reserved
   <files>
     <file>
       <source>LICENSE.txt</source>
+      <outputDirectory>/</outputDirectory>
+    </file>
+    <file>
+      <source>README.txt</source>
       <outputDirectory>/</outputDirectory>
     </file>
     <file>
