@@ -11,10 +11,13 @@ All Rights Reserved
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ed.ph.jacomax</groupId>
   <artifactId>jacomax-all</artifactId>
-  <version>0.2.0</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>jacomax</module>
+    <!--
+    <module>jacomax-pooling</module>
+    -->
     <module>jacomax-samples</module>
     <module>jacomax-diagnostic</module>
   </modules>
@@ -22,6 +25,7 @@ All Rights Reserved
     <junit.version>4.8.1</junit.version>
     <slf4j.version>1.5.11</slf4j.version>
     <log4j.version>1.2.14</log4j.version>
+    <commons-pool.version>1.5.4</commons-pool.version>
   </properties>
   <repositories>
     <repository>
