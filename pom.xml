@@ -15,9 +15,7 @@ All Rights Reserved
   <packaging>pom</packaging>
   <modules>
     <module>jacomax</module>
-    <!--
     <module>jacomax-pooling</module>
-    -->
     <module>jacomax-samples</module>
     <module>jacomax-diagnostic</module>
   </modules>
