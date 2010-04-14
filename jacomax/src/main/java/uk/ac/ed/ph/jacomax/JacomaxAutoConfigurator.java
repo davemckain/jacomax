@@ -176,6 +176,7 @@ public final class JacomaxAutoConfigurator {
                 logger.debug("Found standard GCL binary inside Maxima. Creating a configuration that will use this directly");
                 target.setMaximaExecutablePath(gclExecutable.getAbsolutePath());
                 target.setMaximaCommandArguments(new String[] { "-eval", "(cl-user::run)", "-f" });
+                target.setMaximaRuntimeEnvironment(new String[] { "MAXIMA_PREFIX=" + basePath });
             }
             else {
                 logger.warn("Found Windows Maxima folder at " + maximaFolderPath + " but it does not appear to contain the standard GCL binary. You will need to configure this manually");
