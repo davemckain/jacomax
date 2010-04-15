@@ -110,18 +110,19 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
         /* Trim off trailing whitespace so that we can work out what command terminator is being used */
         String input = callInput.replaceFirst("\\s+$", "");
         char lastChar = input.charAt(input.length() - 1);
-        if (lastChar==';' || lastChar=='$') {
-            /* Looks like a standard Maxima call, so we just append the generator code */
-            return input + " " + CALL_TERMINATOR_GENERATOR;
-        }
-        else if (lastChar==')' && input.contains(":lisp")) {
-            /* Looks like we went into Lisp mode, so terminator code needs to go on a new line */
+        if (lastChar==';' || lastChar=='$' || (lastChar==')' && input.contains(":lisp"))) {
+            /* Looks like a standard Maxima call, or a Lisp call.
+             * 
+             * Note that in all cases, we append the CALL_TERMINATOR_GENERATOR on a separate line,
+             * even though it would only seem necessary when doing Lisp commands. The reason for
+             * this is the Windows/GCL Maxima will not execute the CALL_TERMINATOR_GENERATOR
+             * if an earlier command on the same input line did not succeed, which results in a timeout
+             * in these cases.
+             */
             return input + "\n" + CALL_TERMINATOR_GENERATOR;
         }
-        else {
-            throw new IllegalArgumentException("The Maxima call input '" + callInput 
-                    + "' does not end with ';' or '$', nor look like a Lisp call, so probably will not work");
-        }
+        throw new IllegalArgumentException("The Maxima call input '" + callInput 
+                + "' does not end with ';' or '$', nor look like a Lisp call, so probably will not work");
     }
     
     public void executeCallDiscardOutput(String callInput)
