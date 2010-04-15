@@ -53,7 +53,14 @@ public class InteractiveCallOutputHandler extends InteractiveOutputHandler {
         /* Build up current line so we can check when we're at the required terminator */
         while (charBuffer.hasRemaining()) {
             char c = charBuffer.get();
-            if (c=='\n' || c=='\r') {
+            
+            /* NB: On the Windows/GCL platform that I've tested, Maxima terminates lines
+             * with a single newline, rather than the platform default.
+             * 
+             * So, the logic follows basically ignores carriage returns (which I've never
+             * actually seen output) and uses newlines to indicate the end of a line.
+             */
+            if (c=='\n') {
                 /* See if we have received the required terminator on this line */
                 int terminatorPosition = lastOutputLineBuilder.indexOf(terminator);
                 if (terminatorPosition != -1) {
@@ -72,6 +79,9 @@ public class InteractiveCallOutputHandler extends InteractiveOutputHandler {
                 }
                 /* Reset for reading next line in */
                 lastOutputLineBuilder.setLength(0);
+            }
+            else if (c=='\r') {
+                continue;
             }
             else {
                 lastOutputLineBuilder.append(c);

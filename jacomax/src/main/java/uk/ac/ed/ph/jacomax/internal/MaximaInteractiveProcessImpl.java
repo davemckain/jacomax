@@ -119,7 +119,7 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
              * if an earlier command on the same input line did not succeed, which results in a timeout
              * in these cases.
              */
-            return input + "\n" + CALL_TERMINATOR_GENERATOR;
+            return input + System.getProperty("line.separator") + CALL_TERMINATOR_GENERATOR;
         }
         throw new IllegalArgumentException("The Maxima call input '" + callInput 
                 + "' does not end with ';' or '$', nor look like a Lisp call, so probably will not work");

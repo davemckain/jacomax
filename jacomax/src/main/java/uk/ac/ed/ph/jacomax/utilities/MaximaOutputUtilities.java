@@ -9,7 +9,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * FIXME: Document this type!
+ * Provides some basic utility methods for handling Maxima outputs.
+ * <p>
+ * This might become more fully-featured in the future...
  *
  * @author  David McKain
  * @version $Revision$
@@ -71,6 +73,12 @@ public final class MaximaOutputUtilities {
             c = rawResult.charAt(i);
             if (isCompletingBackslash) {
                 /* Only things I'd expect Maxima to backslash are line terminators and '"' */
+                
+                /* (NB: I've only ever seen Maxima output single newlines as line terminators,
+                 * even on Windows/GCL, and the following simplistic logic reflects this.
+                 * I'm not sure if this behaviour is explicit or an underlying Lisp platform thing,
+                 * so there's a chance we may have to fix this on more esoteric platforms.)
+                 */
                 if (c=='\n') {
                     if (isInString) {
                         /* Literal newline */
@@ -99,5 +107,4 @@ public final class MaximaOutputUtilities {
         }
         return resultBuilder.toString();
     }
-
 }
