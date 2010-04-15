@@ -89,12 +89,19 @@ public class MaximaInteractiveProcessTest extends MaximaProcessLauncherTestBase 
      * This tests making a call that doesn't emit a newline at the end of output, followed
      * by no response. Older versions of the mathml.lisp module used to do something like
      * this.
-     * 
-     * @throws Exception
      */
     @Test
     public void testNoNewlineCall() throws Exception {
     	maximaInteractiveProcess.executeCallDiscardOutput(":lisp (defun $f () (write-char #\\a))");
     	maximaInteractiveProcess.executeCall("f()$");
 	}
+    
+    /**
+     * Regression test for the fix introduced in revision 18. This makes sure the required call
+     * terminator is still output if earlier code causes an error.
+     */
+    @Test
+    public void testBadCommand() throws Exception {
+        maximaInteractiveProcess.executeCall("+;");
+    }
 }
