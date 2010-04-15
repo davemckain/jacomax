@@ -51,10 +51,10 @@ public final class MaximaProcessLauncher {
     private static final Logger logger = LoggerFactory.getLogger(MaximaProcessLauncher.class);
     
     /** Default value for {@link MaximaConfiguration#getDefaultCallTimeout()} */
-    public static final int DEFAULT_CALL_TIMEOUT = 10;
+    public static final int DEFAULT_CALL_TIMEOUT = 60;
     
     /** Default value for {@link MaximaConfiguration#getDefaultBatchTimeout()} */
-    public static final int DEFAULT_BATCH_TIMEOUT = 60;
+    public static final int DEFAULT_BATCH_TIMEOUT = 180;
     
     /** Default value for {@link MaximaConfiguration#getMaximaCharset()} */
     public static final String DEFAULT_MAXIMA_CHARSET = "US-ASCII";
