@@ -211,6 +211,17 @@ public final class MaximaProcessLauncher {
             if (maximaCommandArguments.length>0) {
                 maximaCommandArray.add("--");
             }
+            if (maximaRuntimeEnvironment==null || maximaRuntimeEnvironment.length==0) {
+                /* (This makes sure Maxima can find modules and suchlike) */
+                maximaRuntimeEnvironment = new String[] { "MAXIMA_PREFIX=" + basePath };
+            }
+            else {
+                logger.warn("I have replaced the maximaExecutablePath in order to invoke the underlying GCL binary."
+                        + " I would normally update your maximaRuntimeEnvironment to set MAXIMA_PREFIX"
+                        + " but you have already set this, so I'm going with your decision. You may find you"
+                        + " need to add a MAXIMA_PREFIX setting to the environment (if you haven't done so already)"
+                        + " so that Maxima can find any modules you want to load");
+            }
         }
         else {
             maximaCommandArray.add(maximaExecutablePath);
