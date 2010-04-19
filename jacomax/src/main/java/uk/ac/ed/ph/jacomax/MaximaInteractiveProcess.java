@@ -5,13 +5,12 @@
  */
 package uk.ac.ed.ph.jacomax;
 
-
 /**
  * Handle on an "interactive" Maxima process, as created using
  * {@link MaximaProcessLauncher#launchInteractiveProcess()}.
  * <p>
- * Use this if you want to send a number of commands (or calls) to Maxima
- * for it to evaluate and return a result.
+ * Use this if you want to send a series of commands (or calls) to Maxima
+ * for it to evaluate and (possibly) return results.
  * <p>
  * Call {@link #terminate()} to terminate and clean up
  * the Maxima process once you have finished using it. Any further calls
@@ -66,7 +65,7 @@ public interface MaximaInteractiveProcess {
      *   did not return a result within this time.
      * @throws MaximaProcessTerminatedException if the Maxima process has already
      *   been terminated, either by calling {@link #terminate()}, because a
-     *   {@link MaximaTimeoutException} previously occurred or beacuse a previous
+     *   {@link MaximaTimeoutException} previously occurred or because a previous
      *   call failed to execute.
      */
     String executeCall(String maximaInput)
