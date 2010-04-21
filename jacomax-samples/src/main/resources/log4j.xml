@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-Log4J configuration for the test suite
+Log4J configuration for the samples module
 
 $Id$
 
@@ -24,13 +24,13 @@ All Rights Reserved
     </filter>
   </appender>
 
-  <logger name="uk.ac.ed.ph.jacomax">
+  <logger name="uk.ac.ed.ph.jacomax.diagnostic">
     <level value="TRACE"/>
   </logger>
 
   <!-- Root logger -->
   <root>
-    <level value="TRACE"/>
+    <level value="WARN"/>
     <appender-ref ref="STDOUT"/>
   </root>
 
