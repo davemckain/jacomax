@@ -2,7 +2,6 @@
 <classpath>
   <classpathentry kind="src" output="jacomax/target/classes" path="jacomax/src/main/java"/>
   <classpathentry kind="src" output="jacomax/target/test-classes" path="jacomax/src/test/java"/>
-  <classpathentry kind="src" output="jacomax-pooling/target/classes" path="jacomax-pooling/src/main/java"/>
   <classpathentry kind="src" output="jacomax-samples/target/classes" path="jacomax-samples/src/main/java"/>
   <classpathentry kind="src" output="jacomax-diagnostic/target/classes" path="jacomax-diagnostic/src/main/java"/>
   <classpathentry kind="src" output="jacomax-diagnostic/target/classes" path="jacomax-diagnostic/src/main/resources"/>
