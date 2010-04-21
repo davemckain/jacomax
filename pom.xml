@@ -16,7 +16,6 @@ All Rights Reserved
   <modules>
     <module>jacomax</module>
     <module>jacomax-samples</module>
-    <module>jacomax-diagnostic</module>
   </modules>
   <properties>
     <junit.version>4.8.1</junit.version>
