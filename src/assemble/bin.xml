@@ -17,15 +17,8 @@ All Rights Reserved
   <moduleSets>
     <moduleSet>
       <includes>
-        <!--
-        NOTE: I'm just including the snuggletex-webapp as that
-        has dependencies on all other built artifacts and includes
-        them at once. If I add other artifacts, the assembly process
-        adds them to the ZIP file multiple times, which is annoying.
-        -->
         <include>uk.ac.ed.ph.jacomax:jacomax</include>
         <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
-        <include>uk.ac.ed.ph.jacomax:jacomax-diagnostic</include>
       </includes>
       <binaries>
         <includeDependencies>true</includeDependencies>
