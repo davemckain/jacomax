@@ -32,18 +32,14 @@ All Rights Reserved
       </binaries>
     </moduleSet>
   </moduleSets>
-  <files>
-    <file>
-      <source>LICENSE.txt</source>
-      <outputDirectory>/</outputDirectory>
-    </file>
-    <file>
-      <source>README.txt</source>
-      <outputDirectory>/</outputDirectory>
-    </file>
-    <file>
-      <source>jacomax.properties.sample</source>
-      <outputDirectory>/</outputDirectory>
-    </file>
-  </files>
+  <fileSets>
+    <fileSet>
+      <directory>${project.basedir}</directory>
+      <includes>
+        <include>LICENSE.txt</include>
+        <include>README.txt</include>
+        <include>jacomax.properties.sample</include>
+      </includes>
+    </fileSet>
+  </fileSets>
 </assembly>

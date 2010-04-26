@@ -15,6 +15,7 @@ All Rights Reserved
   </formats>
   <includeBaseDirectory>true</includeBaseDirectory>
   <moduleSets>
+    <!-- Binaries -->
     <moduleSet>
       <includes>
         <include>uk.ac.ed.ph.jacomax:jacomax</include>
@@ -32,32 +33,28 @@ All Rights Reserved
         <unpack>false</unpack>
       </binaries>
     </moduleSet>
-    <!--
-    <moduleSet>
-      <includes>
-        <include>uk.ac.ed.ph.jacomax:jacomax</include>
-        <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
-      </includes>
-      <sources>
-        <includeModuleDirectory>false</includeModuleDirectory>
-        <fileSets>
-          <fileSet>
-            <directory>src</directory>
-            <outputDirectory>src/${module.artifactId}</outputDirectory>
-          </fileSet>
-        </fileSets>
-      </sources>
-    </moduleSet>
-    -->
   </moduleSets>
   <fileSets>
+    <!-- Include README.txt and other stuff at top level -->
     <fileSet>
       <directory>${project.basedir}</directory>
-      <useDefaultExcludes>true</useDefaultExcludes>
+      <includes>
+        <include>LICENSE.txt</include>
+        <include>README.txt</include>
+        <include>jacomax.properties.sample</include>
+      </includes>
+    </fileSet>
+    <!-- Put rest of project source in 'src' container directory -->
+    <fileSet>
+      <directory>${project.basedir}</directory>
+      <outputDirectory>src</outputDirectory>
       <excludes>
-        <exclude>${project.basedir}/target/**</exclude>
-        <exclude>${project.basedir}/jacomax/target/**</exclude>
-        <exclude>${project.basedir}/jacomax-samples/target/**</exclude>
+        <exclude>target/**</exclude>
+        <exclude>jacomax/target/**</exclude>
+        <exclude>jacomax-samples/target/**</exclude>
+        <exclude>LICENSE.txt</exclude>
+        <exclude>README.txt</exclude>
+        <exclude>jacomax.properties.sample</exclude>
       </excludes>
     </fileSet>
   </fileSets>
