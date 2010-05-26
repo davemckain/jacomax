@@ -11,7 +11,7 @@ import uk.ac.ed.ph.jacomax.MaximaProcessTerminatedException;
 import uk.ac.ed.ph.jacomax.MaximaTimeoutException;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -89,9 +89,7 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
         logger.debug("Sending input '{}' to Maxima and reading output the prompt after terminator line '{}'", maximaInput, CALL_TERMINATOR_OUTPUT);
         StringBuilder outputBuilder = new StringBuilder();
         InteractiveCallOutputHandler outputHandler = new InteractiveCallOutputHandler(outputBuilder, CALL_TERMINATOR_OUTPUT, decodingByteBuffer, decodingCharBuffer, maximaOutputDecoder);
-        InputStream inputStream = new ByteArrayInputStream(maximaInput.getBytes(charset));
-        
-        maximaProcessController.doMaximaCall(inputStream, false, outputHandler, callTimeout);
+        maximaProcessController.doMaximaCall(encodeInput(maximaInput), false, outputHandler, callTimeout);
         String rawOutput = outputBuilder.toString();
         
         logger.info("executeCall() => {}", rawOutput);
@@ -140,8 +138,20 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
         String maximaInput = createMaximaInput(callInput);
         logger.debug("Sending input '{}' to Maxima and discarding output until the prompt after terminator line '{}'", maximaInput, CALL_TERMINATOR_OUTPUT);
         InteractiveCallOutputHandler outputHandler = new InteractiveCallOutputHandler(null, CALL_TERMINATOR_OUTPUT, decodingByteBuffer, decodingCharBuffer, maximaOutputDecoder);
-        InputStream inputStream = new ByteArrayInputStream(maximaInput.getBytes(charset));
-        maximaProcessController.doMaximaCall(inputStream, false, outputHandler, callTimeout);
+        maximaProcessController.doMaximaCall(encodeInput(maximaInput), false, outputHandler, callTimeout);
+    }
+    
+    private ByteArrayInputStream encodeInput(String maximaInput) {
+        ByteArrayInputStream result;
+        /* (For Java 1.5 compatibility, we have to go round the houses a bit) */
+        try {
+            result = new ByteArrayInputStream(maximaInput.getBytes(charset.name()));
+        }
+        catch (UnsupportedEncodingException e) {
+            /* Shouldn't happen as we have already verified charset */
+            throw new JacomaxLogicException("Unexpected Exception - charset should have been verified already", e);
+        }
+        return result;
     }
     
     public void softReset() throws MaximaTimeoutException {

@@ -274,7 +274,7 @@ public final class JacomaxPropertiesConfigurator {
         String indexedValue;
         for (int i=0; ;i++) { /* (Keep reading until we get a null or empty property) */
             indexedValue = getProperty(propertyNameBase + i);
-            if (indexedValue==null || indexedValue.trim().isEmpty()) {
+            if (indexedValue==null || indexedValue.trim().length()==0) {
                 break;
             }
             resultList.add(indexedValue);
