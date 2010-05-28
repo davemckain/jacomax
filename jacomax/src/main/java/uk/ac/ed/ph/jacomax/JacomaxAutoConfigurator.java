@@ -115,7 +115,7 @@ public final class JacomaxAutoConfigurator {
     private static File findWindowsProgramFiles() {
         String[] searchLocations = new String[] {
                 System.getenv("ProgramFiles"),
-                System.getenv("ProgramFiles(x86"),
+                System.getenv("ProgramFiles(x86)"),
                 System.getenv("ProgramW6432"),
                 "C:\\Program Files",
                 "C:\\Program Files (x86)"
