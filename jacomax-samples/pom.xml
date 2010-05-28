@@ -15,7 +15,7 @@ All Rights Reserved
   <parent>
     <groupId>uk.ac.ed.ph.jacomax</groupId>
     <artifactId>jacomax-all</artifactId>
-    <version>0.2.2</version>
+    <version>0.2-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>

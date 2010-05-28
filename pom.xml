@@ -11,7 +11,7 @@ All Rights Reserved
   <modelVersion>4.0.0</modelVersion>
   <groupId>uk.ac.ed.ph.jacomax</groupId>
   <artifactId>jacomax-all</artifactId>
-  <version>0.2.2</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>jacomax</module>
