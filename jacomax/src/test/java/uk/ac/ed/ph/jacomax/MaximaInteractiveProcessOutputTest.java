@@ -63,11 +63,14 @@ public class MaximaInteractiveProcessOutputTest extends MaximaProcessLauncherTes
         doSingleOutputCall("simp:false$ string(1+x)", "1+x");
     }
     
-    @Test
-    public void testEmptyStringOutput() throws Exception {
-        /* (Maxima returns a blank output here, rather than "", which is what you might normally expect!) */
-        doSingleOutputCall("string(\"\")", "");
-    }
+// Maxima 5.21 and above outputs "" for string(""), which is consistent but doesn't give us the
+// output wanted for this test. I can't think of any functions which now give an empty output, so
+// have commented this test out.
+//    @Test
+//    public void testEmptyStringOutput() throws Exception {
+//        /* (Maxima returns a blank output here, rather than "", which is what you might normally expect!) */
+//        doSingleOutputCall("string(\"\")", "");
+//    }
     
     @Test
     public void testSplitSingleLine() throws Exception {
