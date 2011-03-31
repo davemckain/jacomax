@@ -8,14 +8,18 @@ Copyright (c) 2010, The University of Edinburgh
 All Rights Reserved
 
 -->
-<assembly>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
   <id>bin</id>
   <formats>
     <format>zip</format>
   </formats>
-  <includeBaseDirectory>true</includeBaseDirectory>
+  <includeBaseDirectory>false</includeBaseDirectory>
   <moduleSets>
+    <!-- Binaries -->
     <moduleSet>
+      <useAllReactorProjects>true</useAllReactorProjects>
       <includes>
         <include>uk.ac.ed.ph.jacomax:jacomax</include>
         <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
@@ -34,7 +38,8 @@ All Rights Reserved
   </moduleSets>
   <fileSets>
     <fileSet>
-      <directory>${project.basedir}</directory>
+      <directory>${project.parent.basedir}</directory>
+      <outputDirectory>/</outputDirectory>
       <includes>
         <include>LICENSE.txt</include>
         <include>README.txt</include>

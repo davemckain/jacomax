@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+
+$Id$
+
+Copyright (c) 2010, The University of Edinburgh
+All Rights Reserved
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.ed.ph.jacomax</groupId>
+  <artifactId>jacomax-distribution</artifactId>
+  <packaging>pom</packaging>
+  <parent>
+    <groupId>uk.ac.ed.ph.jacomax</groupId>
+    <artifactId>jacomax-all</artifactId>
+    <version>0.2-SNAPSHOT</version>
+  </parent>
+  <dependencies>
+    <dependency>
+      <groupId>uk.ac.ed.ph.jacomax</groupId>
+      <artifactId>jacomax</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>uk.ac.ed.ph.jacomax</groupId>
+      <artifactId>jacomax-samples</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>distro-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <descriptors>
+                <descriptor>src/assemble/bin.xml</descriptor>
+                <descriptor>src/assemble/src.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

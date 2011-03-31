@@ -8,15 +8,18 @@ Copyright (c) 2010, The University of Edinburgh
 All Rights Reserved
 
 -->
-<assembly>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
   <id>src</id>
   <formats>
     <format>zip</format>
   </formats>
-  <includeBaseDirectory>true</includeBaseDirectory>
+  <includeBaseDirectory>false</includeBaseDirectory>
   <moduleSets>
     <!-- Binaries -->
     <moduleSet>
+      <useAllReactorProjects>true</useAllReactorProjects>
       <includes>
         <include>uk.ac.ed.ph.jacomax:jacomax</include>
         <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
@@ -37,7 +40,8 @@ All Rights Reserved
   <fileSets>
     <!-- Include README.txt and other stuff at top level -->
     <fileSet>
-      <directory>${project.basedir}</directory>
+      <directory>${project.parent.basedir}</directory>
+      <outputDirectory>/</outputDirectory>
       <includes>
         <include>LICENSE.txt</include>
         <include>README.txt</include>
@@ -46,15 +50,17 @@ All Rights Reserved
     </fileSet>
     <!-- Put rest of project source in 'src' container directory -->
     <fileSet>
-      <directory>${project.basedir}</directory>
+      <directory>${project.parent.basedir}</directory>
       <outputDirectory>src</outputDirectory>
+      <includes>
+        <include>jacomax/**</include>
+        <include>jacomax-samples/**</include>
+        <include>jacomax-distribution/**</include>
+      </includes>
       <excludes>
-        <exclude>target/**</exclude>
         <exclude>jacomax/target/**</exclude>
         <exclude>jacomax-samples/target/**</exclude>
-        <exclude>LICENSE.txt</exclude>
-        <exclude>README.txt</exclude>
-        <exclude>jacomax.properties.sample</exclude>
+        <exclude>jacomax-distribution/target/**</exclude>
       </excludes>
     </fileSet>
   </fileSets>
