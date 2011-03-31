@@ -38,6 +38,9 @@ All Rights Reserved
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
       <!--
       Plugin for running the samples and diagnostics.
 
