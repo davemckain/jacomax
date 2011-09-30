@@ -43,7 +43,8 @@ public final class JacomaxAutoConfigurator {
     };
     
     private static final String[] MAC_OS_X_EXECUTABLE_PATHS = {
-        "/Applications/Maxima.app/Contents/Resources/bin/maxima",
+    	"/Applications/Maxima.app/Contents/Resources/maxima.sh", /* (Newer releases of Maxima) */
+        "/Applications/Maxima.app/Contents/Resources/bin/maxima", /* (Older releases of Maxima) */
         "/opt/local/bin/maxima",
         "/usr/bin/maxima",
         "/usr/local/bin/maxima"
