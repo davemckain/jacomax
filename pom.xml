@@ -9,8 +9,9 @@ All Rights Reserved
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <name>Jacomax parent module</name>
   <groupId>uk.ac.ed.ph.jacomax</groupId>
-  <artifactId>jacomax-all</artifactId>
+  <artifactId>jacomax-parent</artifactId>
   <version>0.2.3</version>
   <packaging>pom</packaging>
   <modules>
@@ -35,7 +36,6 @@ All Rights Reserved
       </releases>
     </repository>
   </repositories>
-  <name>Jacomax</name>
   <description>
     Jacomax (Java Connector for Maxima) is a basic Java interface for the Maxima computer algebra system.
   </description>
