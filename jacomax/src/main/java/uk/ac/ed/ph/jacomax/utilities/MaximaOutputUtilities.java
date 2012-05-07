@@ -52,11 +52,10 @@ public final class MaximaOutputUtilities {
         if (!matcher.matches()) {
             return null;
         }
-        final SingleLinearOutput singleLinearOutput = new SingleLinearOutput();
-        singleLinearOutput.setOutput(matcher.group(1));
-        singleLinearOutput.setOutputPrompt(matcher.group(2));
-        singleLinearOutput.setResult(parseLinearResult(matcher.group(3)));
-        return singleLinearOutput;
+        final String output = matcher.group(1);
+        final String outputPrompt = matcher.group(2);
+        final String result = parseLinearResult(matcher.group(3));
+        return new SingleLinearOutput(output, outputPrompt, result);
     }
 
     public static String parseSingleLinearOutputResult(final String rawOutput) {
