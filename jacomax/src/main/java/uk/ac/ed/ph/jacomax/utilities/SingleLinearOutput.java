@@ -52,7 +52,7 @@ public class SingleLinearOutput implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()
+        return getClass().getSimpleName() + "@" + Integer.toHexString(System.identityHashCode(this))
             + "(output=" + output
             + ",outputPrompt=" + outputPrompt
             + ",result=" + result

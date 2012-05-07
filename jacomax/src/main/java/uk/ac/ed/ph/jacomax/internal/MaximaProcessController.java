@@ -313,11 +313,14 @@ public final class MaximaProcessController {
         }
 
         private void doMaximaWriteLoop() throws IOException {
-            boolean maximaStdinFinished = (callInputStream==null);
-            while (!maximaStdinFinished /*&& !isSignalledTerminating()*/) {
-                logger.trace("Maxima Write Loop: maximaStdinFinished={},inputAvailable={}",
-                        maximaStdinFinished, (callInputStream!=null ? callInputStream.available() : "N/A"));
-
+            if (callInputStream==null) {
+                logger.debug("Maxim STDIN loop exiting immediately as callInputStream is null");
+                return;
+            }
+            boolean maximaStdinFinished = false;
+            while (!maximaStdinFinished) {
+                logger.trace("Maxima STDIN Loop: maximaStdinFinished={},inputAvailable={}",
+                        maximaStdinFinished, callInputStream.available());
                 checkMaximaStderr();
                 logger.trace("Blocking on call input");
                 final int bytesReadFromCallInput = callInputStream.read(maximaStdinBuffer);

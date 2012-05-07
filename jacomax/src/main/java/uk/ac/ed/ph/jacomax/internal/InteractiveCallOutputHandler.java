@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author  David McKain
  * @version $Revision$
  */
-public class InteractiveCallOutputHandler extends InteractiveOutputHandler {
+public final class InteractiveCallOutputHandler extends InteractiveOutputHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(InteractiveCallOutputHandler.class);
 

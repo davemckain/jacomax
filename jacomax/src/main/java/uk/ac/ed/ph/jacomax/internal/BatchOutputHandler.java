@@ -16,7 +16,7 @@ import java.io.OutputStream;
  * @author  David McKain
  * @version $Revision$
  */
-public class BatchOutputHandler implements MaximaOutputHandler {
+public final class BatchOutputHandler implements MaximaOutputHandler {
 
     private final OutputStream batchOutputStream;
 
