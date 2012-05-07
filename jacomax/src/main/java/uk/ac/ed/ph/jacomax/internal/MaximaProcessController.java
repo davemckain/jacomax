@@ -84,7 +84,7 @@ public final class MaximaProcessController {
     /** Buffer for accumulating data from Maxima STDERR */
     final byte[] maximaStderrBuffer;
 
-    /** Handles Maxima STDERR */
+    /** Handles Maxima STDERR (may be null) */
     final OutputStream maximaStderrHandler;
 
     /** Set to true when a call is underway */

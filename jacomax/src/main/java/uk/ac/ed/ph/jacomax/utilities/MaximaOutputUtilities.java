@@ -5,6 +5,8 @@
  */
 package uk.ac.ed.ph.jacomax.utilities;
 
+import uk.ac.ed.ph.jacomax.internal.Assert;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,10 +24,13 @@ public final class MaximaOutputUtilities {
     public static final String DEFAULT_OUTCHAR = "%o";
 
     public static String stripIntermediateInputPrompts(final String rawOutput) {
+        Assert.notNull(rawOutput, "rawOutput");
         return stripIntermediateInputPrompts(rawOutput, "%i");
     }
 
     public static String stripIntermediateInputPrompts(final String rawOutput, final String inchar) {
+        Assert.notNull(rawOutput, "rawOutput");
+        Assert.notNull(inchar, "inchar");
         return rawOutput.replaceAll("\\(\\Q" + inchar + "\\E\\d+\\)", "");
     }
 
@@ -38,10 +43,15 @@ public final class MaximaOutputUtilities {
      * @param rawOutput
      */
     public static SingleLinearOutput parseSingleLinearOutput(final String rawOutput) {
+        Assert.notNull(rawOutput, "rawOutput");
         return parseSingleLinearOutput(rawOutput, DEFAULT_INCHAR, DEFAULT_OUTCHAR);
     }
 
     public static SingleLinearOutput parseSingleLinearOutput(final String rawOutput, final String inchar, final String outchar) {
+        Assert.notNull(rawOutput, "rawOutput");
+        Assert.notNull(inchar, "inchar");
+        Assert.notNull(outchar, "outchar");
+
         /* Strip out any intermediate input prompts.
          * (These appear in certain Lisp/OS combinations.) */
         final String withoutInputPrompts = stripIntermediateInputPrompts(rawOutput, inchar);
@@ -59,11 +69,13 @@ public final class MaximaOutputUtilities {
     }
 
     public static String parseSingleLinearOutputResult(final String rawOutput) {
+        Assert.notNull(rawOutput, "rawOutput");
         final SingleLinearOutput extracted = parseSingleLinearOutput(rawOutput);
         return extracted!=null ? extracted.getResult() : null;
     }
 
     public static String parseLinearResult(final String rawResult) {
+        Assert.notNull(rawResult, "rawResult");
         final StringBuilder resultBuilder = new StringBuilder();
         boolean isInString = false;
         boolean isCompletingBackslash = false;

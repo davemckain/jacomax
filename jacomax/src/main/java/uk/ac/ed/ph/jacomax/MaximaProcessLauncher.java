@@ -5,7 +5,7 @@
  */
 package uk.ac.ed.ph.jacomax;
 
-import uk.ac.ed.ph.jacomax.internal.ConstraintUtilities;
+import uk.ac.ed.ph.jacomax.internal.Assert;
 import uk.ac.ed.ph.jacomax.internal.MaximaBatchProcessImpl;
 import uk.ac.ed.ph.jacomax.internal.MaximaInteractiveProcessImpl;
 import uk.ac.ed.ph.jacomax.internal.MaximaProcessController;
@@ -67,7 +67,7 @@ public final class MaximaProcessLauncher {
      * to specify how to run and connect to Maxima.
      */
     public MaximaProcessLauncher(final MaximaConfiguration maximaConfiguration) {
-        ConstraintUtilities.ensureNotNull(maximaConfiguration, "MaximaConfiguration");
+        Assert.notNull(maximaConfiguration, "MaximaConfiguration");
         this.maximaConfiguration = maximaConfiguration;
     }
 
@@ -79,6 +79,14 @@ public final class MaximaProcessLauncher {
         return launchInteractiveProcess(null);
     }
 
+    /**
+     * Launches a new {@link MaximaInteractiveProcess} that you can send individual calls
+     * to.
+     *
+     * @param maximaStderrHandler optional OutputStram that will receive any STDERR output
+     *   from Maxima. This may be null, which will result in this output being discarded.
+     *   The caller is reponsible for closing this stream afterwards.
+     */
     public MaximaInteractiveProcess launchInteractiveProcess(final OutputStream maximaStderrHandler) {
         final MaximaInteractiveProcessImpl process = new MaximaInteractiveProcessImpl(newMaximaProcessController(maximaStderrHandler),
                 computeDefaultTimeout(maximaConfiguration.getDefaultCallTimeout(), DEFAULT_CALL_TIMEOUT),
@@ -93,21 +101,51 @@ public final class MaximaProcessLauncher {
      * batchInputStream and sending the resulting output to batchOutputStream.
      * <p>
      * The default timeout specified in {@link MaximaConfiguration} is used here.
+     * <p>
+     * On completion, the batchOutputStream will be flushed. The caller is however responsible for
+     * closing all streams provided.
      *
-     * @param batchInputStream
-     * @param batchOutputStream
+     * @param batchInputStream batch input stream, which must not be null
+     * @param batchOutputStream batch output stream, which must not be null
+     *
+     * @return underlying exit value from the Maxima process
      *
      * @throws MaximaTimeoutException if the process exceeded its timeout and had to be killed.
      */
-    public void runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream)
+    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream)
             throws MaximaTimeoutException {
-        runBatchProcess(batchInputStream, batchOutputStream, null,
+        Assert.notNull(batchInputStream, "batchInputStream");
+        Assert.notNull(batchOutputStream, "batchOutputStream");
+        return doRunBatchProcess(batchInputStream, batchOutputStream, null,
                 computeDefaultTimeout(maximaConfiguration.getDefaultBatchTimeout(), DEFAULT_BATCH_TIMEOUT));
     }
 
-    public void runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream, final OutputStream batchErrorStream)
+    /**
+     * Runs a Maxima process in a kind of "batch" mode, feeding it data from the given
+     * batchInputStream and sending the resulting output to batchOutputStream.
+     * <p>
+     * The default timeout specified in {@link MaximaConfiguration} is used here.
+     * <p>
+     * An additional optional OutputStream will receive the STDERR from Maxima
+     * <p>
+     * On completion, the batchOutputStream will be flushed. The caller is however responsible for
+     * closing all streams provided.
+     *
+     * @param batchInputStream batch input stream, which must not be null
+     * @param batchOutputStream batch output stream, which must not be null
+     * @param batchErrorStream optional output stream to receive Maxima STDERR. If null, then
+     *   STDERR output will be discarded.
+     *
+     * @return underlying exit value from the Maxima process
+     *
+     * @throws MaximaTimeoutException if the process exceeded its timeout and had to be killed.
+     */
+    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream,
+            final OutputStream batchErrorStream)
             throws MaximaTimeoutException {
-        runBatchProcess(batchInputStream, batchOutputStream, batchErrorStream,
+        Assert.notNull(batchInputStream, "batchInputStream");
+        Assert.notNull(batchOutputStream, "batchOutputStream");
+        return doRunBatchProcess(batchInputStream, batchOutputStream, batchErrorStream,
                 computeDefaultTimeout(maximaConfiguration.getDefaultBatchTimeout(), DEFAULT_BATCH_TIMEOUT));
     }
 
@@ -118,11 +156,12 @@ public final class MaximaProcessLauncher {
      * The specified timeout (in seconds) is used here. If this value is positive and
      * the batch process has not completed by this time, then the proces is killed and a
      * {@link MaximaTimeoutException} is thrown.
+     * <p>
+     * On completion, the batchOutputStream will be flushed. The caller is however responsible for
+     * closing all streams provided.
      *
-     * FIXME: What's our policy on closing the streams after completion?
-     *
-     * @param batchInputStream
-     * @param batchOutputStream
+     * @param batchInputStream batch input stream, which must not be null
+     * @param batchOutputStream batch output stream, which must not be null
      * @param timeout timeout to use. Zero or less indicates that no timeout should be
      *   applied
      *
@@ -130,15 +169,49 @@ public final class MaximaProcessLauncher {
      *
      * @throws MaximaTimeoutException if the process exceeded its timeout and had to be killed.
      */
-    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream, final int timeout)
+    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream,
+            final int timeout)
             throws MaximaTimeoutException {
-        return runBatchProcess(batchInputStream, batchOutputStream, null, timeout);
+        Assert.notNull(batchInputStream, "batchInputStream");
+        Assert.notNull(batchOutputStream, "batchOutputStream");
+        return doRunBatchProcess(batchInputStream, batchOutputStream, null, timeout);
     }
 
-    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream, final OutputStream batchErrorStream, final int timeout)
+    /**
+     * Runs a Maxima process in a kind of "batch" mode, feeding it data from the given
+     * batchInputStream and sending the resulting output to batchOutputStream.
+     * <p>
+     * The specified timeout (in seconds) is used here. If this value is positive and
+     * the batch process has not completed by this time, then the proces is killed and a
+     * {@link MaximaTimeoutException} is thrown.
+     * <p>
+     * An additional optional OutputStream will receive the STDERR from Maxima
+     * <p>
+     * On completion, the batchOutputStream will be flushed. The caller is however responsible for
+     * closing all streams provided.
+     *
+     * @param batchInputStream batch input stream, which must not be null
+     * @param batchOutputStream batch output stream, which must not be null
+     * @param batchErrorStream optional output stream to receive Maxima STDERR. If null, then
+     *   STDERR output will be discarded.
+     * @param timeout timeout to use. Zero or less indicates that no timeout should be
+     *   applied
+     *
+     * @return underlying exit value from the Maxima process
+     *
+     * @throws MaximaTimeoutException if the process exceeded its timeout and had to be killed.
+     */
+    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream,
+            final OutputStream batchErrorStream, final int timeout)
             throws MaximaTimeoutException {
-        ConstraintUtilities.ensureNotNull(batchInputStream, "batchInputStream");
-        ConstraintUtilities.ensureNotNull(batchOutputStream, "batchOutputStream");
+        Assert.notNull(batchInputStream, "batchInputStream");
+        Assert.notNull(batchOutputStream, "batchOutputStream");
+        return doRunBatchProcess(batchInputStream, batchOutputStream, batchErrorStream, timeout);
+    }
+
+    private int doRunBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream,
+            final OutputStream batchErrorStream, final int timeout)
+            throws MaximaTimeoutException {
         final MaximaBatchProcessImpl batchProcess = new MaximaBatchProcessImpl(newMaximaProcessController(batchErrorStream), batchInputStream, batchOutputStream);
         return batchProcess.run(timeout);
     }

@@ -11,7 +11,7 @@ package uk.ac.ed.ph.jacomax.internal;
  * @author  David McKain
  * @version $Revision$
  */
-public final class ConstraintUtilities {
+public final class Assert {
 
     /**
      * Checks that the given object is non-null, throwing an
@@ -23,7 +23,7 @@ public final class ConstraintUtilities {
      *
      * @throws IllegalArgumentException if <tt>value</tt> is null.
      */
-    public static void ensureNotNull(final Object value, final String objectName) {
+    public static void notNull(final Object value, final String objectName) {
         if (value==null) {
             throw new IllegalArgumentException(objectName + " must not be null");
         }

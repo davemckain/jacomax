@@ -84,12 +84,14 @@ public class MaximaConfiguration implements Serializable, Cloneable {
      * Convenience copy constructor
      */
     public MaximaConfiguration(final MaximaConfiguration source) {
-        this.maximaExecutablePath = source.maximaExecutablePath;
-        this.maximaCommandArguments = safeClone(source.maximaCommandArguments);
-        this.maximaRuntimeEnvironment = safeClone(source.maximaRuntimeEnvironment);
-        this.maximaCharset = source.maximaCharset;
-        this.defaultCallTimeout = source.defaultCallTimeout;
-        this.defaultBatchTimeout = source.defaultBatchTimeout;
+        if (source!=null) {
+            this.maximaExecutablePath = source.maximaExecutablePath;
+            this.maximaCommandArguments = safeClone(source.maximaCommandArguments);
+            this.maximaRuntimeEnvironment = safeClone(source.maximaRuntimeEnvironment);
+            this.maximaCharset = source.maximaCharset;
+            this.defaultCallTimeout = source.defaultCallTimeout;
+            this.defaultBatchTimeout = source.defaultBatchTimeout;
+        }
     }
 
     public String getMaximaExecutablePath() {

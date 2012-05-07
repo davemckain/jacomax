@@ -5,6 +5,8 @@
  */
 package uk.ac.ed.ph.jacomax;
 
+import uk.ac.ed.ph.jacomax.internal.Assert;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -120,6 +122,7 @@ public final class JacomaxPropertiesConfigurator {
      * after it.
      */
     public JacomaxPropertiesConfigurator(final String propertiesName, final PropertiesSearchLocation... propertiesSearchPath) {
+        Assert.notNull(propertiesName, "propertiesName");
         Properties theProperties = null;
         String thePropertiesSourceDescription = null;
         File tryFile;

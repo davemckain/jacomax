@@ -49,10 +49,10 @@ public final class MaximaBatchProcessImpl {
             }
             finally {
                 try {
-                    batchOutputStream.close();
+                    batchOutputStream.flush();
                 }
                 catch (final IOException e) {
-                    throw new JacomaxRuntimeException("Could not close batchOutputStream", e);
+                    throw new JacomaxRuntimeException("Could not flush batchOutputStream", e);
                 }
             }
         }

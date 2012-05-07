@@ -79,7 +79,7 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
     public String executeCall(final String callInput, final int callTimeout)
             throws MaximaTimeoutException {
         logger.debug("executeCall(input={}, timeout={})", callInput, callTimeout);
-        ConstraintUtilities.ensureNotNull(callInput, "maximaInput");
+        Assert.notNull(callInput, "maximaInput");
         ensureNotTerminated();
 
         /* Build Maxima input for this call, which includes some trickery to work out when to
@@ -131,7 +131,7 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
     public void executeCallDiscardOutput(final String callInput, final int callTimeout)
             throws MaximaTimeoutException {
         logger.debug("executeCallDiscardOutput(input={}, timeout={})", callInput, callTimeout);
-        ConstraintUtilities.ensureNotNull(callInput, "maximaInput");
+        Assert.notNull(callInput, "maximaInput");
         ensureNotTerminated();
 
         /* (This is similar to executeCall(), but slightly simpler as we're not bothered with the output here */
