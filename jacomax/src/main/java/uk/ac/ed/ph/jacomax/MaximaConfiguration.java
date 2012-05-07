@@ -77,6 +77,21 @@ public class MaximaConfiguration implements Serializable, Cloneable {
      */
     private int defaultBatchTimeout;
 
+    public MaximaConfiguration() {
+    }
+
+    /**
+     * Convenience copy constructor
+     */
+    public MaximaConfiguration(final MaximaConfiguration source) {
+        this.maximaExecutablePath = source.maximaExecutablePath;
+        this.maximaCommandArguments = safeClone(source.maximaCommandArguments);
+        this.maximaRuntimeEnvironment = safeClone(source.maximaRuntimeEnvironment);
+        this.maximaCharset = source.maximaCharset;
+        this.defaultCallTimeout = source.defaultCallTimeout;
+        this.defaultBatchTimeout = source.defaultBatchTimeout;
+    }
+
     public String getMaximaExecutablePath() {
         return maximaExecutablePath;
     }
@@ -87,20 +102,20 @@ public class MaximaConfiguration implements Serializable, Cloneable {
 
 
     public String[] getMaximaCommandArguments() {
-        return maximaCommandArguments;
+        return safeClone(maximaCommandArguments);
     }
 
     public void setMaximaCommandArguments(final String[] maximaCommandArguments) {
-        this.maximaCommandArguments = maximaCommandArguments;
+        this.maximaCommandArguments = safeClone(maximaCommandArguments);
     }
 
 
     public String[] getMaximaRuntimeEnvironment() {
-        return maximaRuntimeEnvironment;
+        return safeClone(maximaRuntimeEnvironment);
     }
 
     public void setMaximaRuntimeEnvironment(final String[] maximaRuntimeEnvironment) {
-        this.maximaRuntimeEnvironment = maximaRuntimeEnvironment;
+        this.maximaRuntimeEnvironment = safeClone(maximaRuntimeEnvironment);
     }
 
 
@@ -133,11 +148,13 @@ public class MaximaConfiguration implements Serializable, Cloneable {
 
     //-------------------------------------------------------------------
 
+    private String[] safeClone(final String[] source) {
+        return source!=null ? source.clone() : null;
+    }
+
     @Override
     public String toString() {
-        return getClass().getSimpleName()
-            + "@"
-            + Integer.toHexString(hashCode())
+        return getClass().getSimpleName() + "@" + Integer.toHexString(hashCode())
             + "(maximaExecutablePath=" + maximaExecutablePath
             + ",maximaCommandArguments=" + Arrays.toString(maximaCommandArguments)
             + ",maximaRuntimeEnvironment=" + Arrays.toString(maximaRuntimeEnvironment)
