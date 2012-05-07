@@ -14,7 +14,7 @@ All Rights Reserved
   <packaging>jar</packaging>
   <parent>
     <groupId>uk.ac.ed.ph.jacomax</groupId>
-    <artifactId>jacomax-all</artifactId>
+    <artifactId>jacomax-parent</artifactId>
     <version>0.2.3</version>
   </parent>
   <dependencies>
