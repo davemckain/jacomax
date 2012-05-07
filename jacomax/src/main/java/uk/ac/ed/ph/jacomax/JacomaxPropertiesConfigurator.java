@@ -188,7 +188,13 @@ public final class JacomaxPropertiesConfigurator {
      * configuration information.
      */
     public JacomaxPropertiesConfigurator(final File propertiesFile) throws FileNotFoundException {
-        this.properties = readProperties(new FileInputStream(propertiesFile), "File " + propertiesFile.getPath());
+        final FileInputStream fileInputStream = new FileInputStream(propertiesFile);
+        try {
+            this.properties = readProperties(fileInputStream, "File " + propertiesFile.getPath());
+        }
+        finally {
+            ensureClose(fileInputStream);
+        }
         this.propertiesSourceDescription = "Explicitly specified File " + propertiesFile.getPath();
     }
 
@@ -202,7 +208,7 @@ public final class JacomaxPropertiesConfigurator {
     }
 
     private Properties tryPropertiesFile(final File file) {
-        InputStream propertiesStream;
+        InputStream propertiesStream = null;
         logger.debug("Checking for existence of Jacomax properties file at {}", file.getPath());
         try {
             propertiesStream = new FileInputStream(file);
@@ -212,6 +218,20 @@ public final class JacomaxPropertiesConfigurator {
         catch (final FileNotFoundException e) {
             logger.debug("Did not find {}", file.getPath());
             return null;
+        }
+        finally {
+            ensureClose(propertiesStream);
+        }
+    }
+
+    private void ensureClose(final InputStream inputStream) {
+        if (inputStream!=null) {
+            try {
+                inputStream.close();
+            }
+            catch (final IOException e) {
+                throw new JacomaxRuntimeException("Unexpected Exception closing " + inputStream, e);
+            }
         }
     }
 
