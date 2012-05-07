@@ -17,55 +17,55 @@ import java.util.regex.Pattern;
  * @version $Revision$
  */
 public final class MaximaOutputUtilities {
-    
+
     public static final String DEFAULT_INCHAR = "%i";
     public static final String DEFAULT_OUTCHAR = "%o";
-    
-    public static String stripIntermediateInputPrompts(String rawOutput) {
+
+    public static String stripIntermediateInputPrompts(final String rawOutput) {
         return stripIntermediateInputPrompts(rawOutput, "%i");
     }
-    
-    public static String stripIntermediateInputPrompts(String rawOutput, String inchar) {
+
+    public static String stripIntermediateInputPrompts(final String rawOutput, final String inchar) {
         return rawOutput.replaceAll("\\(\\Q" + inchar + "\\E\\d+\\)", "");
     }
-    
+
     /**
      * NOTE: This will go wrong if something gets output that looks like a prompt! Not very
      * much I can do about this...
-     * 
+     *
      * FIXME: Need to test this on Windows and on older versions of Maxima.
-     * 
+     *
      * @param rawOutput
      */
-    public static SingleLinearOutput parseSingleLinearOutput(String rawOutput) {
+    public static SingleLinearOutput parseSingleLinearOutput(final String rawOutput) {
         return parseSingleLinearOutput(rawOutput, DEFAULT_INCHAR, DEFAULT_OUTCHAR);
     }
-    
-    public static SingleLinearOutput parseSingleLinearOutput(String rawOutput, String inchar, String outchar) {
+
+    public static SingleLinearOutput parseSingleLinearOutput(final String rawOutput, final String inchar, final String outchar) {
         /* Strip out any intermediate input prompts.
          * (These appear in certain Lisp/OS combinations.) */
-        String withoutInputPrompts = stripIntermediateInputPrompts(rawOutput, inchar);
+        final String withoutInputPrompts = stripIntermediateInputPrompts(rawOutput, inchar);
 
         /* Now split on output prompt */
-        Pattern extractPattern = Pattern.compile("(?sm)(.*?)(\\(\\Q" + outchar + "\\E\\d+\\))\\s*(.*?)\\s*");
-        Matcher matcher = extractPattern.matcher(withoutInputPrompts);
+        final Pattern extractPattern = Pattern.compile("(?sm)(.*?)(\\(\\Q" + outchar + "\\E\\d+\\))\\s*(.*?)\\s*");
+        final Matcher matcher = extractPattern.matcher(withoutInputPrompts);
         if (!matcher.matches()) {
             return null;
         }
-        SingleLinearOutput singleLinearOutput = new SingleLinearOutput();
+        final SingleLinearOutput singleLinearOutput = new SingleLinearOutput();
         singleLinearOutput.setOutput(matcher.group(1));
         singleLinearOutput.setOutputPrompt(matcher.group(2));
         singleLinearOutput.setResult(parseLinearResult(matcher.group(3)));
         return singleLinearOutput;
     }
-    
-    public static String parseSingleLinearOutputResult(String rawOutput) {
-        SingleLinearOutput extracted = parseSingleLinearOutput(rawOutput);
+
+    public static String parseSingleLinearOutputResult(final String rawOutput) {
+        final SingleLinearOutput extracted = parseSingleLinearOutput(rawOutput);
         return extracted!=null ? extracted.getResult() : null;
     }
-    
-    public static String parseLinearResult(String rawResult) {
-        StringBuilder resultBuilder = new StringBuilder();
+
+    public static String parseLinearResult(final String rawResult) {
+        final StringBuilder resultBuilder = new StringBuilder();
         boolean isInString = false;
         boolean isCompletingBackslash = false;
         char c;
@@ -73,7 +73,7 @@ public final class MaximaOutputUtilities {
             c = rawResult.charAt(i);
             if (isCompletingBackslash) {
                 /* Only things I'd expect Maxima to backslash are line terminators and '"' */
-                
+
                 /* (NB: I've only ever seen Maxima output single newlines as line terminators,
                  * even on Windows/GCL, and the following simplistic logic reflects this.
                  * I'm not sure if this behaviour is explicit or an underlying Lisp platform thing,

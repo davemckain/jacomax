@@ -20,18 +20,18 @@ import org.slf4j.LoggerFactory;
  * @version $Revision$
  */
 public class InteractiveCallOutputHandler extends InteractiveOutputHandler {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(InteractiveCallOutputHandler.class);
-    
+
     private final Appendable outputBuilder;
-    
+
     private final String terminator;
-    
+
     private final StringBuilder lastOutputLineBuilder;
-    
+
     /** This flag gets set at the end of the line containing the required terminator */
     private boolean lineContainingTerminatorEnded;
-    
+
     public InteractiveCallOutputHandler(final Appendable outputBuilder,
             final String terminator, final ByteBuffer decodingByteBuffer,
             final CharBuffer decodingCharBuffer, final CharsetDecoder charsetDecoder) {
@@ -40,34 +40,34 @@ public class InteractiveCallOutputHandler extends InteractiveOutputHandler {
         this.outputBuilder = outputBuilder;
         this.terminator = terminator;
     }
-    
+
     @Override
     public void callStarting() {
         super.callStarting();
         lastOutputLineBuilder.setLength(0);
         lineContainingTerminatorEnded = false;
     }
-    
+
     @Override
-    protected void handleDecodedOutputChunk(CharBuffer charBuffer) throws IOException {
+    protected void handleDecodedOutputChunk(final CharBuffer charBuffer) throws IOException {
         /* Build up current line so we can check when we're at the required terminator */
         while (charBuffer.hasRemaining()) {
-            char c = charBuffer.get();
-            
+            final char c = charBuffer.get();
+
             /* NB: On the Windows/GCL platform that I've tested, Maxima terminates lines
              * with a single newline, rather than the platform default.
-             * 
+             *
              * So, the logic follows basically ignores carriage returns (which I've never
              * actually seen output) and uses newlines to indicate the end of a line.
              */
             if (c=='\n') {
                 /* See if we have received the required terminator on this line */
-                int terminatorPosition = lastOutputLineBuilder.indexOf(terminator);
+                final int terminatorPosition = lastOutputLineBuilder.indexOf(terminator);
                 if (terminatorPosition != -1) {
                     /* Found required input prompt, so terminate */
                     logger.trace("Found terminator; will stop reading on next line, which will be input prompt");
                     lineContainingTerminatorEnded = true;
-                    
+
                     /* (Record anything that came just before the terminator) */
                     if (outputBuilder!=null && terminatorPosition > 0) {
                         outputBuilder.append(lastOutputLineBuilder, 0, terminatorPosition);
@@ -88,7 +88,7 @@ public class InteractiveCallOutputHandler extends InteractiveOutputHandler {
             }
         }
     }
-    
+
     @Override
     public boolean isNextInputPromptReached() {
         return lineContainingTerminatorEnded && lastOutputLineBuilder.toString().endsWith(") ");

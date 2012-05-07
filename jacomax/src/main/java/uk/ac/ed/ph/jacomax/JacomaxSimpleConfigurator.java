@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This configurator uses a mix of {@link JacomaxAutoConfigurator} and 
+ * This configurator uses a mix of {@link JacomaxAutoConfigurator} and
  * {@link JacomaxPropertiesConfigurator} and is probably the simplest way of getting a useful
  * {@link MaximaConfiguration} without requiring much effort.
  *
@@ -19,45 +19,45 @@ import org.slf4j.LoggerFactory;
  * @version $Revision$
  */
 public final class JacomaxSimpleConfigurator {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(JacomaxSimpleConfigurator.class);
-    
+
     /** Enumerate the methods we'll use to obtain a MaximaConfiguration here */
     public static enum ConfigMethod {
-        
+
         /** Use {@link JacomaxAutoConfigurator} */
         AUTO,
-        
+
         /** Use {@link JacomaxPropertiesConfigurator} to search for properties in the default locations */
         PROPERTIES_SEARCH,
         ;
     }
-    
+
     /**
      * Tries to obtain a {@link MaximaConfiguration} by first using {@link JacomaxPropertiesConfigurator}
      * to look for an appropriate Properties file, then using {@link JacomaxAutoConfigurator} if
      * that doesn't work.
-     * 
+     *
      * @return resulting {@link MaximaConfiguration}
-     * 
+     *
      * @throws JacomaxConfigurationException if this process didn't yield anything useful.
      */
     public static MaximaConfiguration configure() {
         return configure(ConfigMethod.PROPERTIES_SEARCH, ConfigMethod.AUTO);
     }
-    
+
     /**
      * Tries to obtain a {@link MaximaConfiguration} using the given methods in order.
-     * 
-     * @param configMethods methods to try in order to obtain a {@link MaximaConfiguration} 
-     * 
+     *
+     * @param configMethods methods to try in order to obtain a {@link MaximaConfiguration}
+     *
      * @return resulting {@link MaximaConfiguration}
-     * 
+     *
      * @throws JacomaxConfigurationException if this process didn't yield anything useful.
      */
-    public static MaximaConfiguration configure(ConfigMethod... configMethods) {
+    public static MaximaConfiguration configure(final ConfigMethod... configMethods) {
         MaximaConfiguration result = null;
-        for (ConfigMethod method : configMethods) {
+        for (final ConfigMethod method : configMethods) {
             switch (method) {
                 case AUTO:
                     logger.debug("Trying automatic configuration");
@@ -66,20 +66,20 @@ public final class JacomaxSimpleConfigurator {
                         logger.debug("Automatic configuration attempt did not succeed");
                     }
                     break;
-                    
+
                 case PROPERTIES_SEARCH:
                     logger.debug("Trying configuration via properties search in default locations");
                     JacomaxPropertiesConfigurator propertiesConfigurator;
                     try {
                         propertiesConfigurator = new JacomaxPropertiesConfigurator();
                     }
-                    catch (JacomaxConfigurationException e) {
+                    catch (final JacomaxConfigurationException e) {
                         logger.debug("Properties search did not succeed");
                         break;
                     }
                     result = propertiesConfigurator.configure();
                     break;
-                    
+
                 default:
                     throw new JacomaxLogicException("Unexpected switch case " + method);
             }
@@ -94,5 +94,5 @@ public final class JacomaxSimpleConfigurator {
         }
         return result;
     }
- 
+
 }

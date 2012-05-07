@@ -16,25 +16,25 @@ import java.nio.charset.CharsetDecoder;
  * @version $Revision$
  */
 public class InteractiveStartupOutputHandler extends InteractiveOutputHandler {
-    
+
     private final StringBuilder lastOutputLineBuilder;
-    
+
     public InteractiveStartupOutputHandler(final ByteBuffer decodingByteBuffer,
             final CharBuffer decodingCharBuffer, final CharsetDecoder charsetDecoder) {
         super(decodingByteBuffer, decodingCharBuffer, charsetDecoder);
         this.lastOutputLineBuilder = new StringBuilder();
     }
-    
+
     @Override
     public void callStarting() {
         super.callStarting();
     }
-    
+
     @Override
-    protected void handleDecodedOutputChunk(CharBuffer buffer) {
+    protected void handleDecodedOutputChunk(final CharBuffer buffer) {
         /* Build up current line so we can check when we're at the required terminator */
         while (buffer.hasRemaining()) {
-            char c = buffer.get();
+            final char c = buffer.get();
             if (c=='\n' || c=='\r') {
                 lastOutputLineBuilder.setLength(0);
             }
@@ -43,7 +43,7 @@ public class InteractiveStartupOutputHandler extends InteractiveOutputHandler {
             }
         }
     }
-    
+
     @Override
     protected boolean isNextInputPromptReached() {
         return "(%i1) ".equals(lastOutputLineBuilder.toString());

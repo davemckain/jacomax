@@ -13,21 +13,21 @@ import org.junit.Test;
 
 /**
  * Tests the batch mode aspects {@link MaximaProcessLauncher} class.
- * 
+ *
  * @author  David McKain
  * @version $Revision$
  */
 public class MaximaBatchProcessTest extends MaximaProcessLauncherTestBase {
-    
+
     @Before
     public void setup() {
         super.init();
     }
-    
+
     @Test
     public void testBatchWorks() throws MaximaTimeoutException {
-        ByteArrayInputStream in = new ByteArrayInputStream(new byte[0]);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final ByteArrayInputStream in = new ByteArrayInputStream(new byte[0]);
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
         maximaProcessLauncher.runBatchProcess(in, out);
     }
 }

@@ -18,47 +18,47 @@ import java.nio.charset.CoderResult;
  * @version $Revision$
  */
 public abstract class InteractiveOutputHandler implements MaximaOutputHandler {
-    
+
     private final CharsetDecoder maximaOutputDecoder;
     private final ByteBuffer decodingByteBuffer;
     private final CharBuffer decodingCharBuffer;
-    
+
     public InteractiveOutputHandler(final ByteBuffer decodingByteBuffer,
             final CharBuffer decodingCharBuffer, final CharsetDecoder charsetDecoder) {
         this.decodingByteBuffer = decodingByteBuffer;
         this.decodingCharBuffer = decodingCharBuffer;
         this.maximaOutputDecoder = charsetDecoder;
     }
-    
+
     public void callStarting() {
         decodingByteBuffer.clear();
         decodingCharBuffer.clear();
         maximaOutputDecoder.reset();
     }
-    
-    public boolean handleOutput(byte[] maximaOutputBuffer, int bytesReadFromMaxima, boolean isMaximaOutputEof)
+
+    public boolean handleOutput(final byte[] maximaOutputBuffer, final int bytesReadFromMaxima, final boolean isMaximaOutputEof)
             throws IOException {
         int stdoutBufferPos = 0;
         int stdoutBufferRemaining = bytesReadFromMaxima;
         int outputChunkSize;
-        
+
         /* Iterate over input, filling lineByteBuffer as much as possible each time */
         while (stdoutBufferPos < bytesReadFromMaxima) {
             outputChunkSize = Math.min(decodingByteBuffer.remaining(), stdoutBufferRemaining);
             decodingByteBuffer.put(maximaOutputBuffer, stdoutBufferPos, outputChunkSize);
             stdoutBufferPos += outputChunkSize;
             stdoutBufferRemaining -= outputChunkSize;
-            
+
             decodeByteBuffer(false);
         }
-        boolean inputPromptReached = isNextInputPromptReached();
+        final boolean inputPromptReached = isNextInputPromptReached();
         if (isMaximaOutputEof && !inputPromptReached) {
             throw new IllegalStateException("Maxima output ended before next input prompt");
         }
         return inputPromptReached;
     }
-    
-    private void decodeByteBuffer(boolean endOfInput) throws IOException {
+
+    private void decodeByteBuffer(final boolean endOfInput) throws IOException {
         CoderResult coderResult;
         while (true) {
             decodingByteBuffer.flip();
@@ -70,7 +70,7 @@ public abstract class InteractiveOutputHandler implements MaximaOutputHandler {
             decodingCharBuffer.flip();
             handleDecodedOutputChunk(decodingCharBuffer);
             decodingCharBuffer.clear();
-            
+
             /* Compact any unencoded bytes from end of buffer */
             decodingByteBuffer.compact();
             if (coderResult.isUnderflow()) {
@@ -79,16 +79,16 @@ public abstract class InteractiveOutputHandler implements MaximaOutputHandler {
             }
         }
     }
-    
+
     public void callFinished() throws IOException {
         finishDecoding();
     }
-    
+
     private void finishDecoding() throws IOException {
         decodeByteBuffer(true);
     }
-    
+
     protected abstract void handleDecodedOutputChunk(CharBuffer buffer) throws IOException;
-    
+
     protected abstract boolean isNextInputPromptReached();
 }

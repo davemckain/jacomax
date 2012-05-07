@@ -18,15 +18,15 @@ import uk.ac.ed.ph.jacomax.utilities.MaximaOutputUtilities;
  * @version $Revision$
  */
 public class InteractiveProcessExample {
-    
-    public static void main(String[] args) throws Exception {
-        MaximaConfiguration configuration = JacomaxSimpleConfigurator.configure();
-        MaximaProcessLauncher launcher = new MaximaProcessLauncher(configuration);
-        MaximaInteractiveProcess process = launcher.launchInteractiveProcess();
-        String result = process.executeCall("1+2;", 10);
-        
+
+    public static void main(final String[] args) throws Exception {
+        final MaximaConfiguration configuration = JacomaxSimpleConfigurator.configure();
+        final MaximaProcessLauncher launcher = new MaximaProcessLauncher(configuration);
+        final MaximaInteractiveProcess process = launcher.launchInteractiveProcess();
+        final String result = process.executeCall("1+2;", 10);
+
         System.out.println("Result is: " + MaximaOutputUtilities.parseSingleLinearOutputResult(result));
-        
+
         process.terminate();
     }
 

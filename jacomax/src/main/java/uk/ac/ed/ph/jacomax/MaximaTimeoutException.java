@@ -13,12 +13,12 @@ package uk.ac.ed.ph.jacomax;
  *   <li>The command was ill-formed and left Maxima expecting more input</li>
  *   <li>The command resulted in Maxima expecting interactive communication</li>
  * </ul>
- * 
+ *
  * @author  David McKain
  * @version $Revision$
  */
 public final class MaximaTimeoutException extends Exception {
-    
+
     private static final long serialVersionUID = 6077105489157609103L;
 
     private final int timeoutSeconds;

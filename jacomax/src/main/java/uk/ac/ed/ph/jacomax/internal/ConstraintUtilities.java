@@ -23,7 +23,7 @@ public final class ConstraintUtilities {
      *
      * @throws IllegalArgumentException if <tt>value</tt> is null.
      */
-    public static void ensureNotNull(Object value, String objectName) {
+    public static void ensureNotNull(final Object value, final String objectName) {
         if (value==null) {
             throw new IllegalArgumentException(objectName + " must not be null");
         }

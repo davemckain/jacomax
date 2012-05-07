@@ -42,23 +42,23 @@ import org.slf4j.LoggerFactory;
  * </ul>
  * An instance of this class is thread-safe, provided that the {@link MaximaConfiguration}
  * it was created with is not modified.
- * 
+ *
  * @author  David McKain
  * @version $Revision$
  */
 public final class MaximaProcessLauncher {
 
     private static final Logger logger = LoggerFactory.getLogger(MaximaProcessLauncher.class);
-    
+
     /** Default value for {@link MaximaConfiguration#getDefaultCallTimeout()} */
     public static final int DEFAULT_CALL_TIMEOUT = 60;
-    
+
     /** Default value for {@link MaximaConfiguration#getDefaultBatchTimeout()} */
     public static final int DEFAULT_BATCH_TIMEOUT = 180;
-    
+
     /** Default value for {@link MaximaConfiguration#getMaximaCharset()} */
     public static final String DEFAULT_MAXIMA_CHARSET = "US-ASCII";
-   
+
     /** Underlying {@link MaximaConfiguration} used by this launcher */
     private final MaximaConfiguration maximaConfiguration;
 
@@ -66,7 +66,7 @@ public final class MaximaProcessLauncher {
      * Creates a new Maxima process launcher, using the given {@link MaximaConfiguration}
      * to specify how to run and connect to Maxima.
      */
-    public MaximaProcessLauncher(MaximaConfiguration maximaConfiguration) {
+    public MaximaProcessLauncher(final MaximaConfiguration maximaConfiguration) {
         ConstraintUtilities.ensureNotNull(maximaConfiguration, "MaximaConfiguration");
         this.maximaConfiguration = maximaConfiguration;
     }
@@ -78,34 +78,34 @@ public final class MaximaProcessLauncher {
     public MaximaInteractiveProcess launchInteractiveProcess() {
         return launchInteractiveProcess(null);
     }
-    
-    public MaximaInteractiveProcess launchInteractiveProcess(OutputStream maximaStderrHandler) {
-        MaximaInteractiveProcessImpl process = new MaximaInteractiveProcessImpl(newMaximaProcessController(maximaStderrHandler),
+
+    public MaximaInteractiveProcess launchInteractiveProcess(final OutputStream maximaStderrHandler) {
+        final MaximaInteractiveProcessImpl process = new MaximaInteractiveProcessImpl(newMaximaProcessController(maximaStderrHandler),
                 computeDefaultTimeout(maximaConfiguration.getDefaultCallTimeout(), DEFAULT_CALL_TIMEOUT),
                 computeMaximaCharset());
         process.advanceToFirstInputPrompt();
         logger.info("Maxima interactive process started and ready for communication");
         return process;
     }
-    
+
     /**
      * Runs a Maxima process in a kind of "batch" mode, feeding it data from the given
      * batchInputStream and sending the resulting output to batchOutputStream.
      * <p>
      * The default timeout specified in {@link MaximaConfiguration} is used here.
-     * 
+     *
      * @param batchInputStream
      * @param batchOutputStream
-     * 
+     *
      * @throws MaximaTimeoutException if the process exceeded its timeout and had to be killed.
      */
-    public void runBatchProcess(InputStream batchInputStream, OutputStream batchOutputStream)
+    public void runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream)
             throws MaximaTimeoutException {
         runBatchProcess(batchInputStream, batchOutputStream, null,
                 computeDefaultTimeout(maximaConfiguration.getDefaultBatchTimeout(), DEFAULT_BATCH_TIMEOUT));
     }
-    
-    public void runBatchProcess(InputStream batchInputStream, OutputStream batchOutputStream, OutputStream batchErrorStream)
+
+    public void runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream, final OutputStream batchErrorStream)
             throws MaximaTimeoutException {
         runBatchProcess(batchInputStream, batchOutputStream, batchErrorStream,
                 computeDefaultTimeout(maximaConfiguration.getDefaultBatchTimeout(), DEFAULT_BATCH_TIMEOUT));
@@ -118,33 +118,33 @@ public final class MaximaProcessLauncher {
      * The specified timeout (in seconds) is used here. If this value is positive and
      * the batch process has not completed by this time, then the proces is killed and a
      * {@link MaximaTimeoutException} is thrown.
-     * 
+     *
      * FIXME: What's our policy on closing the streams after completion?
-     * 
+     *
      * @param batchInputStream
      * @param batchOutputStream
      * @param timeout timeout to use. Zero or less indicates that no timeout should be
      *   applied
-     *   
+     *
      * @return underlying exit value from the Maxima process
-     * 
+     *
      * @throws MaximaTimeoutException if the process exceeded its timeout and had to be killed.
      */
-    public int runBatchProcess(InputStream batchInputStream, OutputStream batchOutputStream, int timeout)
+    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream, final int timeout)
             throws MaximaTimeoutException {
         return runBatchProcess(batchInputStream, batchOutputStream, null, timeout);
     }
-    
-    public int runBatchProcess(InputStream batchInputStream, OutputStream batchOutputStream, OutputStream batchErrorStream, int timeout)
+
+    public int runBatchProcess(final InputStream batchInputStream, final OutputStream batchOutputStream, final OutputStream batchErrorStream, final int timeout)
             throws MaximaTimeoutException {
         ConstraintUtilities.ensureNotNull(batchInputStream, "batchInputStream");
         ConstraintUtilities.ensureNotNull(batchOutputStream, "batchOutputStream");
-        MaximaBatchProcessImpl batchProcess = new MaximaBatchProcessImpl(newMaximaProcessController(batchErrorStream), batchInputStream, batchOutputStream);
+        final MaximaBatchProcessImpl batchProcess = new MaximaBatchProcessImpl(newMaximaProcessController(batchErrorStream), batchInputStream, batchOutputStream);
         return batchProcess.run(timeout);
     }
-    
+
     //------------------------------------------------------------------------
-    
+
     private Charset computeMaximaCharset() {
         String charset = maximaConfiguration.getMaximaCharset();
         if (charset==null) {
@@ -153,12 +153,12 @@ public final class MaximaProcessLauncher {
         try {
             return Charset.forName(charset);
         }
-        catch (IllegalCharsetNameException e) {
+        catch (final IllegalCharsetNameException e) {
             throw new JacomaxConfigurationException("Unknown character set " + charset, e);
         }
     }
-    
-    private int computeDefaultTimeout(int configured, int defaultValue) {
+
+    private int computeDefaultTimeout(final int configured, final int defaultValue) {
         if (configured > 0) {
             return configured;
         }
@@ -169,31 +169,31 @@ public final class MaximaProcessLauncher {
             return 0;
         }
     }
-    
-    private MaximaProcessController newMaximaProcessController(OutputStream maximaStderrHandler) {
+
+    private MaximaProcessController newMaximaProcessController(final OutputStream maximaStderrHandler) {
         return new MaximaProcessController(this, launchMaximaProcess(), maximaStderrHandler);
     }
-    
+
     private Process launchMaximaProcess() {
         /* Extract relevant configuration required to get Maxima running */
-        String maximaExecutablePath = maximaConfiguration.getMaximaExecutablePath();
-        String[] maximaCommandArguments = maximaConfiguration.getMaximaCommandArguments();
+        final String maximaExecutablePath = maximaConfiguration.getMaximaExecutablePath();
+        final String[] maximaCommandArguments = maximaConfiguration.getMaximaCommandArguments();
         String[] maximaRuntimeEnvironment = maximaConfiguration.getMaximaRuntimeEnvironment();
         if (maximaExecutablePath==null) {
             throw new JacomaxConfigurationException("maximaExecutablePath must not be null");
         }
-        
+
         /* Build up the resulting command that we will execute */
-        List<String> maximaCommandArray = new ArrayList<String>();
-        Pattern windowsMagicPattern = Pattern.compile("^(.+?\\\\Maxima-([\\d.]+))\\\\bin\\\\maxima.bat$");
-        Matcher windowsMagicMatcher = windowsMagicPattern.matcher(maximaExecutablePath);
+        final List<String> maximaCommandArray = new ArrayList<String>();
+        final Pattern windowsMagicPattern = Pattern.compile("^(.+?\\\\Maxima-([\\d.]+))\\\\bin\\\\maxima.bat$");
+        final Matcher windowsMagicMatcher = windowsMagicPattern.matcher(maximaExecutablePath);
         if (windowsMagicMatcher.matches()) {
             /* (We are actually going to directly call the underlying GCL binary that's bundled with
              * the Windows Maxima EXE, which is a bit of a cheat. The reason we do this is so
              * that the Maxima process can be killed if there's a timeout. Otherwise, we'd just
              * be killing the maxima.bat script, which doesn't actually kill the child process on
              * Windows, leaving an orphaned process causing havoc.
-             * 
+             *
              * If you don't want to use GCL here, you'll need to specify the exact Lisp runtime
              * you want and the appropriate command line arguments and environment variables.
              * This information can be gleaned from the maxima.bat script itself.)
@@ -201,9 +201,9 @@ public final class MaximaProcessLauncher {
             logger.info("Replacing configured call to Windows Maxima batch file with call to "
                     + "the underlying GCL binary that comes with vanilla Windows Maxima installs. "
                     + "If you don't want this, please adjust your configuration!");
-            String basePath = windowsMagicMatcher.group(1);
-            String versionString = windowsMagicMatcher.group(2);
-            
+            final String basePath = windowsMagicMatcher.group(1);
+            final String versionString = windowsMagicMatcher.group(2);
+
             maximaCommandArray.add(basePath + "\\lib\\maxima\\" + versionString + "\\binary-gcl\\maxima.exe");
             maximaCommandArray.add("-eval");
             maximaCommandArray.add("(cl-user::run)");
@@ -227,7 +227,7 @@ public final class MaximaProcessLauncher {
             maximaCommandArray.add(maximaExecutablePath);
         }
         if (maximaCommandArguments!=null) {
-            for (String arg : maximaCommandArguments) {
+            for (final String arg : maximaCommandArguments) {
                 maximaCommandArray.add(arg);
             }
         }
@@ -242,7 +242,7 @@ public final class MaximaProcessLauncher {
             result = Runtime.getRuntime().exec(maximaCommandArray.toArray(new String[maximaCommandArray.size()]), maximaRuntimeEnvironment);
             logger.debug("Maxima process started");
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new JacomaxRuntimeException("Could not launch Maxima process", e);
         }
         return result;

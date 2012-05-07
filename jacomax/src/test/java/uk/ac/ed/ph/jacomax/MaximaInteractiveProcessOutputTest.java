@@ -16,22 +16,22 @@ import org.junit.Test;
 /**
  * Additional tests for {@link MaximaInteractiveProcess} that checks the resulting
  * outputs.
- * 
+ *
  * @author  David McKain
  * @version $Revision$
  */
 public class MaximaInteractiveProcessOutputTest extends MaximaProcessLauncherTestBase {
-    
+
     protected MaximaInteractiveProcess maximaInteractiveProcess;
-    
+
     @Before
     public void setup() {
         super.init();
-        
+
         /* Start process */
         maximaInteractiveProcess = maximaProcessLauncher.launchInteractiveProcess();
     }
-    
+
     @After
     public void cleanup() {
         /* Kill process so we have a clean slate each time */
@@ -40,29 +40,29 @@ public class MaximaInteractiveProcessOutputTest extends MaximaProcessLauncherTes
             maximaInteractiveProcess = null;
         }
     }
-    
-    protected void doSingleOutputCall(String maximaExpression, String expectedResult) throws Exception {
-        String result = maximaInteractiveProcess.executeCall(maximaExpression + ";");
+
+    protected void doSingleOutputCall(final String maximaExpression, final String expectedResult) throws Exception {
+        final String result = maximaInteractiveProcess.executeCall(maximaExpression + ";");
         Assert.assertEquals(expectedResult, MaximaOutputUtilities.parseSingleLinearOutputResult(result));
     }
-    
+
     @Test
     public void testMultipleCalls() throws Exception {
         for (int i=0; i<1000; i++) {
             doSingleOutputCall(String.valueOf(i), String.valueOf(i));
         }
     }
-    
+
     @Test
     public void testSimpleSingleLine() throws Exception {
         doSingleOutputCall("1", "1");
     }
-    
+
     @Test
     public void testLessSimpleSingleLine() throws Exception {
         doSingleOutputCall("simp:false$ string(1+x)", "1+x");
     }
-    
+
 // Maxima 5.21 and above outputs "" for string(""), which is consistent but doesn't give us the
 // output wanted for this test. I can't think of any functions which now give an empty output, so
 // have commented this test out.
@@ -71,7 +71,7 @@ public class MaximaInteractiveProcessOutputTest extends MaximaProcessLauncherTes
 //        /* (Maxima returns a blank output here, rather than "", which is what you might normally expect!) */
 //        doSingleOutputCall("string(\"\")", "");
 //    }
-    
+
     @Test
     public void testSplitSingleLine() throws Exception {
         /* (Maxima splits the raw output, which gets rejoined by our code) */

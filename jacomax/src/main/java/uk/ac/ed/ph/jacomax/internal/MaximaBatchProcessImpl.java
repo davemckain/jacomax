@@ -17,28 +17,28 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Internal implementation of batch process functionality.
- * 
+ *
  * @author  David McKain
  * @version $Revision$
  */
 public final class MaximaBatchProcessImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(MaximaBatchProcessImpl.class);
-    
+
     private final MaximaProcessController maximaProcessController;
     private final InputStream batchInputStream;
     private final OutputStream batchOutputStream;
-    
-    public MaximaBatchProcessImpl(MaximaProcessController maximaProcessController,
-            InputStream batchInputStream, OutputStream batchOutputStream) {
+
+    public MaximaBatchProcessImpl(final MaximaProcessController maximaProcessController,
+            final InputStream batchInputStream, final OutputStream batchOutputStream) {
         this.maximaProcessController = maximaProcessController;
         this.batchInputStream = batchInputStream;
         this.batchOutputStream = batchOutputStream;
     }
-    
-    public int run(int timeout) throws MaximaTimeoutException {
+
+    public int run(final int timeout) throws MaximaTimeoutException {
         logger.info("Running Maxima process in batch mode");
-        BatchOutputHandler writerOutputHandler = new BatchOutputHandler(batchOutputStream);
+        final BatchOutputHandler writerOutputHandler = new BatchOutputHandler(batchOutputStream);
         int returnCode;
         try {
             maximaProcessController.doMaximaCall(batchInputStream, true, writerOutputHandler, timeout);
@@ -51,7 +51,7 @@ public final class MaximaBatchProcessImpl {
                 try {
                     batchOutputStream.close();
                 }
-                catch (IOException e) {
+                catch (final IOException e) {
                     throw new JacomaxRuntimeException("Could not close batchOutputStream", e);
                 }
             }

@@ -23,17 +23,17 @@ import org.slf4j.LoggerFactory;
  * @version $Revision$
  */
 public class JacomaxDiagnostic {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(JacomaxDiagnostic.class);
-    
-    public static void main(String[] args) throws Exception {
+
+    public static void main(final String[] args) throws Exception {
         setupLog4J();
         try {
-            MaximaConfiguration configuration = JacomaxSimpleConfigurator.configure();
-            MaximaProcessLauncher launcher = new MaximaProcessLauncher(configuration);
-            MaximaInteractiveProcess process = launcher.launchInteractiveProcess();
-            String result = process.executeCall("1;", 10);
-            String parsed = MaximaOutputUtilities.parseSingleLinearOutputResult(result);
+            final MaximaConfiguration configuration = JacomaxSimpleConfigurator.configure();
+            final MaximaProcessLauncher launcher = new MaximaProcessLauncher(configuration);
+            final MaximaInteractiveProcess process = launcher.launchInteractiveProcess();
+            final String result = process.executeCall("1;", 10);
+            final String parsed = MaximaOutputUtilities.parseSingleLinearOutputResult(result);
             process.terminate();
             if ("1".equals(parsed)) {
                 logger.info("JacomaxDiagnostic ran successfully");
@@ -43,11 +43,11 @@ public class JacomaxDiagnostic {
                 logger.info("Raw result was: " + result);
             }
         }
-        catch (Exception e) {
+        catch (final Exception e) {
             logger.error("JacomaxDiagnostic throw an Exception when running", e);
         }
     }
-    
+
     private static void setupLog4J() throws Exception {
         /* We configure Log4J to be exceptionally verbose here, but without requiring
          * any config files to get loaded. We would normally do this directly-
@@ -59,9 +59,9 @@ public class JacomaxDiagnostic {
          * equivalent using reflection:
          */
         Class.forName("org.apache.log4j.BasicConfigurator").getMethod("configure").invoke(null);
-        Object rootLogger = Class.forName("org.apache.log4j.Logger").getMethod("getRootLogger").invoke(null);
-        Class<?> levelClass = Class.forName("org.apache.log4j.Level");
-        Object traceLevel = levelClass.getDeclaredField("TRACE").get(levelClass);
+        final Object rootLogger = Class.forName("org.apache.log4j.Logger").getMethod("getRootLogger").invoke(null);
+        final Class<?> levelClass = Class.forName("org.apache.log4j.Level");
+        final Object traceLevel = levelClass.getDeclaredField("TRACE").get(levelClass);
         rootLogger.getClass().getMethod("setLevel", levelClass).invoke(rootLogger, traceLevel);
     }
 }

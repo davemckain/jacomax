@@ -33,33 +33,33 @@ import org.slf4j.LoggerFactory;
  * <p>
  * {@link MaximaBatchProcessImpl} and {@link MaximaInteractiveProcessImpl} use this
  * to do their work.
- * 
+ *
  * @author  David McKain
  * @version $Revision$
  */
 public final class MaximaProcessController {
 
     static final Logger logger = LoggerFactory.getLogger(MaximaProcessController.class);
-    
+
     /** Size of buffer used to accumulate bytes to send to Maxima STDIN. */
     public static final int INPUT_BUFFER_SIZE = 1024;
-    
+
     /** Size of buffer used to accumulate bytes to send to Maxima STDOUT. */
     public static final int OUTPUT_BUFFER_SIZE = 1024;
-    
+
     /** Size of buffer used to accumulate bytes to send to Maxima STDERR. */
     public static final int STDERR_BUFFER_SIZE = 128;
-    
-    /** 
+
+    /**
      * Time to wait after asking Maxima process to terminate before forcibly killing it.
      * (This is needed if Maxima gets locked in a calculation that is either very
      * complex or will never actually finish.)
      */
     private static final int PROCESS_KILL_TIMEOUT = 1;
-    
+
     /** {@link MaximaProcessLauncher} owning this */
     private final MaximaProcessLauncher launcher;
-    
+
     /** Helper to manage asynchronous calls to Maxima process thread */
     private final ExecutorService executor;
 
@@ -68,38 +68,38 @@ public final class MaximaProcessController {
 
     /** Maxima STDIN handle */
     final OutputStream maximaStdin;
-    
+
     /** Maxima STDOUT handle */
     final InputStream maximaStdout;
-    
+
     /** Maxima STDERR handle */
     final InputStream maximaStderr;
-    
+
     /** Buffer for accumulating data to send to Maxima STDIN */
     final byte[] maximaStdinBuffer;
 
     /** Buffer for accumulating data from Maxima STDOUT */
     final byte[] maximaStdoutBuffer;
-    
+
     /** Buffer for accumulating data from Maxima STDERR */
     final byte[] maximaStderrBuffer;
-    
+
     /** Handles Maxima STDERR */
     final OutputStream maximaStderrHandler;
-    
+
     /** Set to true when a call is underway */
     private boolean callRunning;
-    
+
     /** {@link Future} representing the result of the Thread feeding data to Maxima STDIN */
     private Future<Object> maximaCallInputFuture;
-    
+
     /** {@link Future} representing the result of the Thread receiving data from Maxima STDOUT*/
     private Future<Object> maximaCallOutputFuture;
-    
+
     /** Flag set when the underlying process has been terminated */
     private boolean terminated;
 
-    public MaximaProcessController(MaximaProcessLauncher launcher, Process maximaProcess, OutputStream maximaStderrHandler) {
+    public MaximaProcessController(final MaximaProcessLauncher launcher, final Process maximaProcess, final OutputStream maximaStderrHandler) {
         this.launcher = launcher;
         this.maximaProcess = maximaProcess;
         this.maximaStderrHandler = maximaStderrHandler;
@@ -114,11 +114,11 @@ public final class MaximaProcessController {
         this.maximaCallInputFuture = null;
         this.maximaCallOutputFuture = null;
     }
-    
+
     public MaximaProcessLauncher getOwner() {
         return launcher;
     }
-    
+
     public boolean isTerminated() {
         return terminated;
     }
@@ -128,9 +128,9 @@ public final class MaximaProcessController {
      * more calls can be made to this process after this point.
      * <p>
      * Calling this on a process that has already terminated will do nothing.
-     * 
+     *
      * @return underlying exit value from the Maxima process, {@link MaximaInteractiveProcess#PROCESS_ALREADY_TERMINATED}
-     *    if the process was already terminated, or {@link MaximaInteractiveProcess#PROCESS_FORCIBLY_DESTROYED} 
+     *    if the process was already terminated, or {@link MaximaInteractiveProcess#PROCESS_FORCIBLY_DESTROYED}
      *    if the process had to be forcibly destroyed.
      */
     public int terminate() {
@@ -139,11 +139,11 @@ public final class MaximaProcessController {
         }
         /* If there's a call already running, try to get it to cancel */
         cancelCurrentMaximaCall();
-        
+
         /* Then terminate the Maxima process */
         return terminateMaximaProcess();
     }
-    
+
     /* (Thread safe) */
     private int terminateMaximaProcess() {
         terminated = true;
@@ -154,7 +154,7 @@ public final class MaximaProcessController {
                 synchronized (maximaStdin) {
                     maximaStdin.close();
                 }
-                FutureTask<Integer> shutdownTask = new FutureTask<Integer>(new Callable<Integer>() {
+                final FutureTask<Integer> shutdownTask = new FutureTask<Integer>(new Callable<Integer>() {
                     public Integer call() throws Exception {
                         return maximaProcess.waitFor();
                     }
@@ -162,7 +162,7 @@ public final class MaximaProcessController {
                 executor.execute(shutdownTask);
                 return shutdownTask.get(PROCESS_KILL_TIMEOUT, TimeUnit.SECONDS).intValue();
             }
-            catch (Exception e) {
+            catch (final Exception e) {
                 logger.info("Maxima process did not terminate naturally, so forcibly terminating", e);
                 maximaProcess.destroy();
                 return MaximaInteractiveProcess.PROCESS_FORCIBLY_DESTROYED;
@@ -174,22 +174,22 @@ public final class MaximaProcessController {
                 try {
                     maximaStderrHandler.close();
                 }
-                catch (IOException e) {
+                catch (final IOException e) {
                     throw new JacomaxRuntimeException("Could not close maximaStderrHandler", e);
                 }
             }
         }
     }
-    
-    public void doMaximaCall(InputStream callInputStream, boolean closeOnInputEof,
-            MaximaOutputHandler maximaOutputHandler, int callTimeout)
+
+    public void doMaximaCall(final InputStream callInputStream, final boolean closeOnInputEof,
+            final MaximaOutputHandler maximaOutputHandler, final int callTimeout)
             throws MaximaTimeoutException {
         ensureNotTerminated();
         if (callRunning) {
             throw new JacomaxLogicException("Precondition failed - callRunning is currently true");
         }
         callRunning = true;
-        List<Callable<Object>> callables = new ArrayList<Callable<Object>>();
+        final List<Callable<Object>> callables = new ArrayList<Callable<Object>>();
         callables.add(Executors.callable(new MaximaInputTask(callInputStream, closeOnInputEof)));
         callables.add(Executors.callable(new MaximaOutputTask(maximaOutputHandler)));
         try {
@@ -206,7 +206,7 @@ public final class MaximaProcessController {
             }
             maximaCallInputFuture = callResults.get(0);
             maximaCallOutputFuture = callResults.get(1);
-            boolean hadTimeout = callTimeout>0 && maximaCallInputFuture.isCancelled() || maximaCallOutputFuture.isCancelled();
+            final boolean hadTimeout = callTimeout>0 && maximaCallInputFuture.isCancelled() || maximaCallOutputFuture.isCancelled();
             if (hadTimeout) {
                 logger.info("Timeout was exceeded communicating with Maxima - terminating the process");
                 terminateMaximaProcess();
@@ -215,8 +215,8 @@ public final class MaximaProcessController {
             maximaCallInputFuture.get();
             maximaCallOutputFuture.get();
         }
-        catch (ExecutionException e) {
-            Throwable cause = e.getCause();
+        catch (final ExecutionException e) {
+            final Throwable cause = e.getCause();
             JacomaxRuntimeException toThrow;
             if (cause instanceof JacomaxRuntimeException) {
                 logger.info("Caught a JacomaxRuntimeException from thread - terminating the process");
@@ -229,7 +229,7 @@ public final class MaximaProcessController {
             terminateMaximaProcess();
             throw toThrow;
         }
-        catch (InterruptedException e) {
+        catch (final InterruptedException e) {
             if (!terminated) {
                 logger.info("Maxima threads interrupted unexpectedly - terminating the process");
                 terminateMaximaProcess();
@@ -242,7 +242,7 @@ public final class MaximaProcessController {
             callRunning = false;
         }
     }
-    
+
     private void cancelCurrentMaximaCall() {
         if (callRunning) {
             logger.debug("Instructing current Maxima call to cancel if possible");
@@ -253,12 +253,12 @@ public final class MaximaProcessController {
             callRunning = false;
         }
     }
-    
+
     /* (Thread-safe) */
     void checkMaximaStderr() throws IOException {
         synchronized (maximaStderr) {
             if (maximaStderr.available() > 0) {
-                int bytesReadFromStderr = maximaStderr.read(maximaStderrBuffer);
+                final int bytesReadFromStderr = maximaStderr.read(maximaStderrBuffer);
                 if (logger.isTraceEnabled() && bytesReadFromStderr>0) {
                     logger.trace("MAXIMA!!!: {}", new String(maximaStderrBuffer, 0, bytesReadFromStderr, "US-ASCII"));
                 }
@@ -274,7 +274,7 @@ public final class MaximaProcessController {
             }
         }
     }
-    
+
     private void ensureNotTerminated() {
         if (terminated) {
             throw new MaximaProcessTerminatedException();
@@ -288,39 +288,39 @@ public final class MaximaProcessController {
      * @version $Revision$
      */
     private class MaximaInputTask implements Runnable {
-        
+
         /** Stream providing call data to send to Maxima STDIN */
         private final InputStream callInputStream;
-        
-        /** 
+
+        /**
          * Flag to indicate whether Maxima STDIN should be closed, rather than just flushed,
          * when there is no more input to send to it.
          */
         private final boolean closeStdinOnEof;
-        
-        public MaximaInputTask(InputStream callInputStream, boolean closeStdinOnEof) {
+
+        public MaximaInputTask(final InputStream callInputStream, final boolean closeStdinOnEof) {
             this.callInputStream = callInputStream;
             this.closeStdinOnEof = closeStdinOnEof;
         }
-        
+
         public void run() {
             try {
                 doMaximaWriteLoop();
             }
-            catch (IOException e) {
+            catch (final IOException e) {
                 throw new JacomaxRuntimeException("An IOException occurred sending input to Maxima", e);
             }
         }
-        
+
         private void doMaximaWriteLoop() throws IOException {
             boolean maximaStdinFinished = (callInputStream==null);
             while (!maximaStdinFinished /*&& !isSignalledTerminating()*/) {
                 logger.trace("Maxima Write Loop: maximaStdinFinished={},inputAvailable={}",
                         maximaStdinFinished, (callInputStream!=null ? callInputStream.available() : "N/A"));
-                
+
                 checkMaximaStderr();
                 logger.trace("Blocking on call input");
-                int bytesReadFromCallInput = callInputStream.read(maximaStdinBuffer);
+                final int bytesReadFromCallInput = callInputStream.read(maximaStdinBuffer);
                 synchronized (maximaStdin) {
                     if (bytesReadFromCallInput==-1) {
                         /* Nothing more to send to Maxima */
@@ -338,7 +338,7 @@ public final class MaximaProcessController {
                             logger.trace("Read {} byte(s) from callInputStream. Passing to Maxima input and flushing", bytesReadFromCallInput);
                             logger.trace("MAXIMA>>>: {}", new String(maximaStdinBuffer, 0, bytesReadFromCallInput, "US-ASCII"));
                         }
-                        
+
                         /* Send stuff to Maxima and try again */
                         maximaStdin.write(maximaStdinBuffer, 0, bytesReadFromCallInput);
                         maximaStdin.flush();
@@ -351,7 +351,7 @@ public final class MaximaProcessController {
             logger.debug("Maxim STDIN loop exiting");
         }
     }
-    
+
     /**
      * Task that reads from Maxima STDOUT
      *
@@ -359,14 +359,14 @@ public final class MaximaProcessController {
      * @version $Revision$
      */
     private class MaximaOutputTask implements Runnable {
-        
+
         /** Handler to cope with raw Maxima STDOUT */
         private final MaximaOutputHandler maximaOutputHandler;
-        
-        public MaximaOutputTask(MaximaOutputHandler maximaOutputHandler) {
+
+        public MaximaOutputTask(final MaximaOutputHandler maximaOutputHandler) {
             this.maximaOutputHandler = maximaOutputHandler;
         }
-        
+
         public void run() {
             try {
                 try {
@@ -377,11 +377,11 @@ public final class MaximaProcessController {
                     maximaOutputHandler.callFinished();
                 }
             }
-            catch (IOException e) {
+            catch (final IOException e) {
                 throw new JacomaxRuntimeException("An IOException occurred reading from Maxima", e);
             }
         }
-        
+
         private void doMaximaReadLoop() throws IOException {
             boolean maximaStdoutFinished = false;
             boolean outputHandlerSaysStop = false;
@@ -396,7 +396,7 @@ public final class MaximaProcessController {
                             });
                 }
                 checkMaximaStderr();
-                int bytesReadFromMaxima = maximaStdout.read(maximaStdoutBuffer);
+                final int bytesReadFromMaxima = maximaStdout.read(maximaStdoutBuffer);
                 if (bytesReadFromMaxima==-1) {
                     /* Maxima's STDOUT has finished */
                     logger.trace("Received EOF from Maxima STDOUT so stopping reading from it and informing output handler");

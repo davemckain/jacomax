@@ -10,29 +10,29 @@ import java.io.OutputStream;
 
 /**
  * Handler used when running Maxima in batch mode.
- * 
+ *
  * @see MaximaBatchProcessImpl
  *
  * @author  David McKain
  * @version $Revision$
  */
 public class BatchOutputHandler implements MaximaOutputHandler {
-    
+
     private final OutputStream batchOutputStream;
-    
-    public BatchOutputHandler(OutputStream outputStream) {
+
+    public BatchOutputHandler(final OutputStream outputStream) {
         this.batchOutputStream = outputStream;
     }
-    
+
     public void callStarting() {
         /* (Nothing to do) */
     }
-    
-    public boolean handleOutput(byte[] maximaOutputBuffer, int bytesReadFromMaxima, boolean outputFinished) throws IOException {
+
+    public boolean handleOutput(final byte[] maximaOutputBuffer, final int bytesReadFromMaxima, final boolean outputFinished) throws IOException {
         batchOutputStream.write(maximaOutputBuffer, 0, bytesReadFromMaxima);
         return outputFinished;
     }
-    
+
     public void callFinished() throws IOException {
         batchOutputStream.close();
     }
