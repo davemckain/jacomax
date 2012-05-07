@@ -60,21 +60,21 @@ public final class JacomaxSimpleConfigurator {
         for (final ConfigMethod method : configMethods) {
             switch (method) {
                 case AUTO:
-                    logger.debug("Trying automatic configuration");
+                    logger.trace("Trying automatic configuration");
                     result = JacomaxAutoConfigurator.guessMaximaConfiguration();
                     if (result==null) {
-                        logger.debug("Automatic configuration attempt did not succeed");
+                        logger.trace("Automatic configuration attempt did not succeed");
                     }
                     break;
 
                 case PROPERTIES_SEARCH:
-                    logger.debug("Trying configuration via properties search in default locations");
+                    logger.trace("Trying configuration via properties search in default locations");
                     JacomaxPropertiesConfigurator propertiesConfigurator;
                     try {
                         propertiesConfigurator = new JacomaxPropertiesConfigurator();
                     }
                     catch (final JacomaxConfigurationException e) {
-                        logger.debug("Properties search did not succeed");
+                        logger.trace("Properties search did not succeed");
                         break;
                     }
                     result = propertiesConfigurator.configure();

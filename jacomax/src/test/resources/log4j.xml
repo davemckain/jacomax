@@ -25,7 +25,7 @@ All Rights Reserved
   </appender>
 
   <logger name="uk.ac.ed.ph.jacomax">
-    <level value="WARN"/>
+    <level value="INFO"/>
   </logger>
 
   <!-- Root logger -->

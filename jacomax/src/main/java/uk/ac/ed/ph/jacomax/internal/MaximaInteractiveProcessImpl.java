@@ -61,7 +61,7 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
     }
 
     public void advanceToFirstInputPrompt() {
-        logger.debug("Reading Maxima output and first input prompt");
+        logger.trace("Reading Maxima output and first input prompt");
         final InteractiveStartupOutputHandler outputHandler = new InteractiveStartupOutputHandler(decodingByteBuffer, decodingCharBuffer, maximaOutputDecoder);
         try {
             maximaProcessController.doMaximaCall(null, false, outputHandler, 0);
@@ -78,7 +78,7 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
 
     public String executeCall(final String callInput, final int callTimeout)
             throws MaximaTimeoutException {
-        logger.info("executeCall(input={}, timeout={})", callInput, callTimeout);
+        logger.debug("executeCall(input={}, timeout={})", callInput, callTimeout);
         ConstraintUtilities.ensureNotNull(callInput, "maximaInput");
         ensureNotTerminated();
 
@@ -86,13 +86,13 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
          * stop reading call output.
          */
         final String maximaInput = createMaximaInput(callInput);
-        logger.debug("Sending input '{}' to Maxima and reading output the prompt after terminator line '{}'", maximaInput, CALL_TERMINATOR_OUTPUT);
+        logger.trace("Sending input '{}' to Maxima and reading output the prompt after terminator line '{}'", maximaInput, CALL_TERMINATOR_OUTPUT);
         final StringBuilder outputBuilder = new StringBuilder();
         final InteractiveCallOutputHandler outputHandler = new InteractiveCallOutputHandler(outputBuilder, CALL_TERMINATOR_OUTPUT, decodingByteBuffer, decodingCharBuffer, maximaOutputDecoder);
         maximaProcessController.doMaximaCall(encodeInput(maximaInput), false, outputHandler, callTimeout);
         final String rawOutput = outputBuilder.toString();
 
-        logger.info("executeCall() => {}", rawOutput);
+        logger.debug("executeCall() => {}", rawOutput);
         return rawOutput;
     }
 
@@ -130,13 +130,13 @@ public final class MaximaInteractiveProcessImpl implements MaximaInteractiveProc
 
     public void executeCallDiscardOutput(final String callInput, final int callTimeout)
             throws MaximaTimeoutException {
-        logger.info("executeCallDiscardOutput(input={}, timeout={})", callInput, callTimeout);
+        logger.debug("executeCallDiscardOutput(input={}, timeout={})", callInput, callTimeout);
         ConstraintUtilities.ensureNotNull(callInput, "maximaInput");
         ensureNotTerminated();
 
         /* (This is similar to executeCall(), but slightly simpler as we're not bothered with the output here */
         final String maximaInput = createMaximaInput(callInput);
-        logger.debug("Sending input '{}' to Maxima and discarding output until the prompt after terminator line '{}'", maximaInput, CALL_TERMINATOR_OUTPUT);
+        logger.trace("Sending input '{}' to Maxima and discarding output until the prompt after terminator line '{}'", maximaInput, CALL_TERMINATOR_OUTPUT);
         final InteractiveCallOutputHandler outputHandler = new InteractiveCallOutputHandler(null, CALL_TERMINATOR_OUTPUT, decodingByteBuffer, decodingCharBuffer, maximaOutputDecoder);
         maximaProcessController.doMaximaCall(encodeInput(maximaInput), false, outputHandler, callTimeout);
     }

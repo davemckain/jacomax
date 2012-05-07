@@ -84,7 +84,7 @@ public final class MaximaProcessLauncher {
                 computeDefaultTimeout(maximaConfiguration.getDefaultCallTimeout(), DEFAULT_CALL_TIMEOUT),
                 computeMaximaCharset());
         process.advanceToFirstInputPrompt();
-        logger.info("Maxima interactive process started and ready for communication");
+        logger.debug("Maxima interactive process started and ready for communication");
         return process;
     }
 
@@ -198,7 +198,7 @@ public final class MaximaProcessLauncher {
              * you want and the appropriate command line arguments and environment variables.
              * This information can be gleaned from the maxima.bat script itself.)
              */
-            logger.info("Replacing configured call to Windows Maxima batch file with call to "
+            logger.debug("Replacing configured call to Windows Maxima batch file with call to "
                     + "the underlying GCL binary that comes with vanilla Windows Maxima installs. "
                     + "If you don't want this, please adjust your configuration!");
             final String basePath = windowsMagicMatcher.group(1);
@@ -236,11 +236,11 @@ public final class MaximaProcessLauncher {
         Process result;
         try {
             if (logger.isInfoEnabled()) {
-                logger.info("Starting Maxima cmdarray {} with environment {}",
+                logger.debug("Starting Maxima cmdarray {} with environment {}",
                         maximaCommandArray, Arrays.toString(maximaRuntimeEnvironment));
             }
             result = Runtime.getRuntime().exec(maximaCommandArray.toArray(new String[maximaCommandArray.size()]), maximaRuntimeEnvironment);
-            logger.debug("Maxima process started");
+            logger.trace("Maxima process started");
         }
         catch (final IOException e) {
             throw new JacomaxRuntimeException("Could not launch Maxima process", e);

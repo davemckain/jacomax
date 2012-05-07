@@ -68,19 +68,19 @@ public final class JacomaxAutoConfigurator {
         if (osName!=null && osName.startsWith("Windows")) {
             final File programFilesFolder = findWindowsProgramFiles();
             if (programFilesFolder!=null) {
-                logger.debug("Looking in Windows Program Files Folder ({}) for Maxima installs", programFilesFolder);
+                logger.trace("Looking in Windows Program Files Folder ({}) for Maxima installs", programFilesFolder);
                 final File maximaFolder = chooseBestWindowsMaximaFolder(programFilesFolder);
                 if (maximaFolder!=null) {
-                    logger.debug("Found Maxima with highest version number at {}", maximaFolder);
+                    logger.trace("Found Maxima with highest version number at {}", maximaFolder);
                     findWindowsMaximaExecutable(result, maximaFolder);
                 }
                 else {
-                    logger.debug("Did not find any folders of the form Maxima-n.n.n, so giving up.");
+                    logger.trace("Did not find any folders of the form Maxima-n.n.n, so giving up.");
                 }
             }
         }
         else if ("Mac OS X".equals(osName)) {
-            logger.debug("This is Mac OS X, looking for Maxima at {}", Arrays.toString(MAC_OS_X_EXECUTABLE_PATHS));
+            logger.trace("This is Mac OS X, looking for Maxima at {}", Arrays.toString(MAC_OS_X_EXECUTABLE_PATHS));
             final String executablePath = findExecutable(MAC_OS_X_EXECUTABLE_PATHS);
             if (executablePath!=null && executablePath.equals("/opt/local/bin/maxima")) {
                 /* For MacPorts install, I found that I needed to set the PATH in this case */
@@ -90,7 +90,7 @@ public final class JacomaxAutoConfigurator {
         }
         else {
             /* We'll try common paths for Unix-like systems */
-            logger.debug("Looking for Maxima at the following Unixy locations: {}", Arrays.toString(UNIX_EXECUTABLE_PATHS));
+            logger.trace("Looking for Maxima at the following Unixy locations: {}", Arrays.toString(UNIX_EXECUTABLE_PATHS));
             result.setMaximaExecutablePath(findExecutable(UNIX_EXECUTABLE_PATHS));
         }
 
@@ -98,17 +98,17 @@ public final class JacomaxAutoConfigurator {
             logger.warn("Could not guess an appropriate MaximaConfiguration");
             return null;
         }
-        logger.info("Automatic configuration yielded (hopefully usable) result: {}", result);
+        logger.debug("Automatic configuration yielded (hopefully usable) result: {}", result);
         return result;
     }
 
     private static String findExecutable(final String[] searchLocations) {
         for (final String location : searchLocations) {
             if (new File(location).exists()) {
-                logger.debug("Found file at {}, which will be assumed to be the Maxima executable", location);
+                logger.trace("Found file at {}, which will be assumed to be the Maxima executable", location);
                 return location;
             }
-            logger.debug("No potential Maxima executable found at {}");
+            logger.trace("No potential Maxima executable found at {}");
         }
         return null;
     }
@@ -174,7 +174,7 @@ public final class JacomaxAutoConfigurator {
 
             final File gclExecutable = new File(basePath + "\\lib\\maxima\\" + versionString + "\\binary-gcl\\maxima.exe");
             if (gclExecutable.isFile()) {
-                logger.debug("Found standard GCL binary inside Maxima. Creating a configuration that will use this directly");
+                logger.trace("Found standard GCL binary inside Maxima. Creating a configuration that will use this directly");
                 target.setMaximaExecutablePath(gclExecutable.getAbsolutePath());
                 target.setMaximaCommandArguments(new String[] { "-eval", "(cl-user::run)", "-f" });
                 target.setMaximaRuntimeEnvironment(new String[] { "MAXIMA_PREFIX=" + basePath });

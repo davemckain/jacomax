@@ -37,7 +37,7 @@ public final class MaximaBatchProcessImpl {
     }
 
     public int run(final int timeout) throws MaximaTimeoutException {
-        logger.info("Running Maxima process in batch mode");
+        logger.debug("Running Maxima process in batch mode");
         final BatchOutputHandler writerOutputHandler = new BatchOutputHandler(batchOutputStream);
         int returnCode;
         try {

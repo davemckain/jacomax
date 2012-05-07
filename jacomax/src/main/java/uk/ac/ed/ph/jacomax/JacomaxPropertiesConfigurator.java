@@ -129,7 +129,7 @@ public final class JacomaxPropertiesConfigurator {
                     tryFile = new File(System.getProperty("user.dir"), propertiesName);
                     theProperties = tryPropertiesFile(tryFile);
                     if (theProperties!=null) {
-                        logger.info("Creating Maxima configuration from properties file {} found in current directory", tryFile.getPath());
+                        logger.debug("Creating Maxima configuration from properties file {} found in current directory", tryFile.getPath());
                         thePropertiesSourceDescription = "File " + tryFile.getPath() + " (found in current directory)";
                         break SEARCH;
                     }
@@ -139,7 +139,7 @@ public final class JacomaxPropertiesConfigurator {
                     tryFile = new File(System.getProperty("user.home"), propertiesName);
                     theProperties = tryPropertiesFile(tryFile);
                     if (theProperties!=null) {
-                        logger.info("Creating Maxima configuration from properties file {} found in user home directory", tryFile.getPath());
+                        logger.debug("Creating Maxima configuration from properties file {} found in user home directory", tryFile.getPath());
                         thePropertiesSourceDescription = "File " + tryFile.getPath() + " (found in user home directory)";
                         break SEARCH;
                     }
@@ -149,7 +149,7 @@ public final class JacomaxPropertiesConfigurator {
                     final InputStream propertiesStream = JacomaxPropertiesConfigurator.class.getClassLoader().getResourceAsStream(propertiesName);
                     if (propertiesStream!=null) {
                         theProperties = readProperties(propertiesStream, "ClassPath resource " + propertiesName);
-                        logger.info("Creating Maxima configuration using properties file {} found in ClassPath", propertiesStream);
+                        logger.debug("Creating Maxima configuration using properties file {} found in ClassPath", propertiesStream);
                         thePropertiesSourceDescription = "ClassPath resource " + propertiesName;
                         break SEARCH;
                     }
@@ -157,7 +157,7 @@ public final class JacomaxPropertiesConfigurator {
 
                 case SYSTEM:
                     theProperties = System.getProperties();
-                    logger.info("Creating Maxima configuration from System properties");
+                    logger.debug("Creating Maxima configuration from System properties");
                     thePropertiesSourceDescription = "System properties";
                     break SEARCH;
 
@@ -209,14 +209,14 @@ public final class JacomaxPropertiesConfigurator {
 
     private Properties tryPropertiesFile(final File file) {
         InputStream propertiesStream = null;
-        logger.debug("Checking for existence of Jacomax properties file at {}", file.getPath());
+        logger.trace("Checking for existence of Jacomax properties file at {}", file.getPath());
         try {
             propertiesStream = new FileInputStream(file);
-            logger.debug("Found {}", file.getPath());
+            logger.trace("Found {}", file.getPath());
             return readProperties(propertiesStream, "File " + file.getPath());
         }
         catch (final FileNotFoundException e) {
-            logger.debug("Did not find {}", file.getPath());
+            logger.trace("Did not find {}", file.getPath());
             return null;
         }
         finally {
