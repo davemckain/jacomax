@@ -132,6 +132,11 @@ All Rights Reserved
           </executions>
         </plugin>
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>2.4.0</version>
+        </plugin>
+        <plugin>
           <artifactId>maven-assembly-plugin</artifactId>
           <version>2.2.1</version>
         </plugin>
