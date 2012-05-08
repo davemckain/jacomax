@@ -54,7 +54,7 @@ All Rights Reserved
       <id>davemckain</id>
       <name>David McKain</name>
       <email>david.mckain&#xa0;[at]&#xa0;ed.ac.uk</email>
-      <url>http://www2.ph.ed.ac.uk/~dmckain/</url>
+      <url>http://www.ph.ed.ac.uk/people/david-mckain</url>
       <organization>School of Physics and Astronomy, University of Edinburgh</organization>
       <organizationUrl>http://www.ph.ed.ac.uk</organizationUrl>
       <roles>
@@ -65,9 +65,9 @@ All Rights Reserved
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:https://jacomax.svn.sourceforge.net/svnroot/jacomax/trunk</connection>
-    <developerConnection>scm:svn:https://jacomax.svn.sourceforge.net/svnroot/jacomax/trunk</developerConnection>
-    <url>http://jacomax.svn.sourceforge.net/svnroot/jacomax/trunk</url>
+    <connection>scm:git:git@github.com:davemckain/jacomax.git</connection>
+    <developerConnection>scm:git:git@github.com:davemckain/jacomax.git</developerConnection>
+    <url>https://github.com/davemckain/jacomax</url>
   </scm>
   <issueManagement>
     <system>sourceforge</system>
@@ -91,7 +91,7 @@ All Rights Reserved
       ssh -t davemckain,jacomax@shell.sourceforge.net create
       -->
       <id>sourceforge.net</id>
-      <url>scp://shell.sourceforge.net/home/groups/j/ja/jacomax/htdocs/maven</url>
+      <url>scp://shell.sourceforge.net/home/project-web/jacomax/htdocs/maven</url>
     </site>
   </distributionManagement>
   <build>
@@ -144,6 +144,14 @@ All Rights Reserved
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
         <version>3.1</version>
+        <dependencies>
+          <dependency>
+            <!-- add support for ssh/scp -->
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>1.0</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
