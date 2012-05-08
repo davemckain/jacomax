@@ -13,7 +13,7 @@ All Rights Reserved
   <parent>
     <groupId>uk.ac.ed.ph.jacomax</groupId>
     <artifactId>jacomax-parent</artifactId>
-    <version>0.2.3</version>
+    <version>0.2-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>

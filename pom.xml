@@ -10,7 +10,7 @@ All Rights Reserved
   <name>Jacomax parent module</name>
   <groupId>uk.ac.ed.ph.jacomax</groupId>
   <artifactId>jacomax-parent</artifactId>
-  <version>0.2.3</version>
+  <version>0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <modules>
     <module>jacomax</module>
