@@ -25,7 +25,7 @@ All Rights Reserved
   <repositories>
     <repository>
       <id>www2.ph.ed.ac.uk</id>
-      <url>http://www2.ph.ed.ac.uk/maven2</url>
+      <url>https://www2.ph.ed.ac.uk/maven2</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -40,7 +40,7 @@ All Rights Reserved
   <inceptionYear>2009</inceptionYear>
   <organization>
     <name>The University of Edinburgh</name>
-    <url>http://www.ed.ac.uk</url>
+    <url>https://www.ed.ac.uk</url>
   </organization>
   <licenses>
     <license>
@@ -54,9 +54,9 @@ All Rights Reserved
       <id>davemckain</id>
       <name>David McKain</name>
       <email>david.mckain&#xa0;[at]&#xa0;ed.ac.uk</email>
-      <url>http://www.ph.ed.ac.uk/people/david-mckain</url>
+      <url>https://www.ph.ed.ac.uk/people/david-mckain</url>
       <organization>School of Physics and Astronomy, University of Edinburgh</organization>
-      <organizationUrl>http://www.ph.ed.ac.uk</organizationUrl>
+      <organizationUrl>https://www.ph.ed.ac.uk</organizationUrl>
       <roles>
         <role>architect</role>
         <role>developer</role>
@@ -70,8 +70,8 @@ All Rights Reserved
     <url>https://github.com/davemckain/jacomax</url>
   </scm>
   <issueManagement>
-    <system>sourceforge</system>
-    <url>http://sourceforge.net/tracker/?group_id=311139</url>
+    <system>github</system>
+    <url>https://github.com/davemckain/jacomax/issues</url>
   </issueManagement>
   <distributionManagement>
     <!-- (This is not intended for general use!) -->
@@ -83,16 +83,6 @@ All Rights Reserved
       <id>www2.ph.ed.ac.uk</id>
       <url>file:///Disk/apps-team/repositories/maven2</url>
     </snapshotRepository>
-    <site>
-      <!--
-      Reminder! Need to create a shell on sourceforge first before trying to do
-      a site deployment.
-
-      ssh -t davemckain,jacomax@shell.sourceforge.net create
-      -->
-      <id>sourceforge.net</id>
-      <url>scp://shell.sourceforge.net/home/project-web/jacomax/htdocs/maven</url>
-    </site>
   </distributionManagement>
   <build>
     <pluginManagement>
@@ -209,7 +199,7 @@ All Rights Reserved
           <windowtitle>Jacomax API Documentation</windowtitle>
           <doctitle>Jacomax API Documentation</doctitle>
           <bottom><![CDATA[
-            <p><a href="https://sourceforge.net/projects/jacomax/" target="_top">Jacomax</a></p>
+            <p><a href="https://github.com/davemckain/jacomax" target="_top">Jacomax</a></p>
             <p>Copyright &#xa9; 2010 The School of Physics and Astronomy, The University of Edinburgh.</p>
             <p style="font-style:italic">The University of Edinburgh is a charitable body, registered in Scotland, with registration number SC005336.</p>
           ]]></bottom>

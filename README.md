@@ -2,21 +2,20 @@
 
 Jacomax (Java Connector for Maxima) is a basic Java interface for the Maxima computer algebra system.
 
+Jacomax is open source, with the 3-clause BSD license.
+
 The software was initially developed as part of the Jisc MathAssess and FETLAR projects and
-is now a standalone open source project, hosted here.
+is now a standalone open source project, hosted on GitHub.
 
 ## Getting Jacomax
 
 ### Download
 
-Binary releases of Jacomax can be downloaded from [SourceForge.net](https://sourceforge.net/projects/jacomax/files/).
-
-The source may be obtained from this GitHub repository at https://github.com/davemckain/jacomax. 
-(Jacomax now uses Git for version control; it originally used Subversion.)
+Jacomax can be found on GitHub at https://github.com/davemckain/jacomax.
 
 ### Downloading a binary distribution
 
-* You can download the latest binary distribution from https://sourceforge.net/projects/jacomax/files/. 
+* You can download the latest binary distribution from https://github.com/davemckain/jacomax/releases.
   Currently, this is a single ZIP bundle containing the main Jacomax JAR, some additional JARs for
   running the examples and diagnostics, plus all required (and some optional) dependencies.
 * If you use Apache Maven, Jacomax can be downloaded as part of your build process by declaring it as a dependency as follows:
@@ -34,7 +33,7 @@ https://www2.ph.ed.ac.uk/maven2.)
 
 ### Building from source
 
-Jacomax now uses Git for version control. The central git repository can be found at 
+Jacomax uses Git for version control. It is hosted on GitHub at
 https://github.com/davemckain/jacomax.
 
 Jacomax uses Apache Maven for project build and management, so you will first need to
@@ -82,7 +81,7 @@ unless otherwise stated.)
 ### MaximaConfiguration
 
 The first thing you need to use Jacomax is a
-[MaximaConfiguration](http://jacomax.sourceforge.net/maven/xref/uk/ac/ed/ph/jacomax/MaximaConfiguration.html)
+[MaximaConfiguration](https://github.com/davemckain/jacomax/blob/master/jacomax/src/main/java/uk/ac/ed/ph/jacomax/MaximaConfiguration.java)
 Object. This is a plain old Java Object that tells Jacomax how to invoke and run Maxima.
 
 The most important property here is **maximaExecutablePath**, which tells Jacomax which
@@ -263,8 +262,3 @@ so far:
 * Mac OS X (10.6)/SBCL 1.0.29/Maxima 5.21.1 (standard download, installed in /Applications)
 * Mac OS X (10.6)/SBCL 1.0.29/Maxima 5.18.1 (via MacPorts)
 * Windows XP (SP 3)/GCL 2.6.8/Maxima 5.20.1 (standard download)
-
-## Related links
-
-* [Jacomax project page on SourceForge.net](https://sourceforge.net/projects/jacomax/)
-* [Jacomax Maven developer reports](http://jacomax.sourceforge.net/maven/)
