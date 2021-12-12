@@ -18,9 +18,8 @@ All Rights Reserved
     <module>jacomax-distribution</module>
   </modules>
   <properties>
-    <junit.version>4.8.2</junit.version>
-    <slf4j.version>1.5.11</slf4j.version>
-    <log4j.version>1.2.16</log4j.version>
+    <slf4j.version>1.7.32</slf4j.version>
+    <junit.version>4.13.2</junit.version>
   </properties>
   <repositories>
     <repository>

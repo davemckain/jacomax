@@ -21,7 +21,6 @@ All Rights Reserved
     <moduleSet>
       <useAllReactorProjects>true</useAllReactorProjects>
       <includes>
-        <include>uk.ac.ed.ph.jacomax:jacomax</include>
         <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
       </includes>
       <binaries>

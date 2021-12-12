@@ -54,18 +54,20 @@ and you will need to ensure this is in the compile-time classpath of any project
 to use Jacomax in.
 
 Jacomax uses the [SLF4J](http://www.slf4j.org/) logging framework, so you will also need to 
-have two SLF4J JARs in your runtime ClassPath:
+have some SLF4J JARs in your runtime ClassPath:
 
 * **slf4j-api-nnn.jar** (required in all cases)
 * and exactly ONE of the following, depending on your own logging requirements:
   * **slf4j-simple-nnn.jar** (if you want to use simple console logging)
-  * **slf4j-log4j-nnn.jar** and **log4j-nnn.jar** (if you're using [Log4J](http://logging.apache.org/log4j/1.2/)
+  * **slf4j-log4j12-nnn.jar** and **log4j-nnn.jar** (if you're using [Log4J 1.2.x](http://logging.apache.org/log4j/1.2/)
   * **slf4j-nop-nnn.jar** (if you don't want any logging)
   * ... or indeed any of the other options listed in the SLF4J manual
  
-The Jacomax binary distribution contains the **slf4j-api-nnn.jar** and the required JARs for using Log4J.
-If you want to use any of the other logging options, you may obtain the required JARs by downloading the
-entire SLF4J binary from the SLF4J download page, or directly via its Maven repository.
+The Jacomax binary distribution contains **slf4j-api-nnn.jar** and **slf4j-simple-nnn.jar**.
+You may need to add in the additional SLF4J JARs to match your logging requirements by downloading the
+entire SLF4J binary distribution from the SLF4J download page, or directly via its Maven repository.
+(Note this behaviour changed slightly in the 0.2.4 release, which switched from using Log4J to slf4j-simple
+as the default logging option.)
 
 ## How Jacomax works
 
@@ -172,12 +174,12 @@ in your input).
 Jacomax runs each call with a "timeout" value associated to it, which specifies a
 time limit in seconds for the call to complete running. If a timeout is exceeded,
 the underlying Maxima process will be terminated and a **MaximaTimeoutException**
-is thrown. Any futher calls made to a MaximaInteractiveProcess after this time will
+is thrown. Any further calls made to a MaximaInteractiveProcess after this time will
 result in a **MaximaProcessTerminatedException** (which is a subclass of **IllegalStateException**). 
 A timeout can be passed explicitly for each call, or set for the
 **MaximaInteractiveProcess** itself, and an initial timeout is inherited from the **MaximaConfiguration**.
 A timeout of zero (which results if you don't configure anything) is interpreted as "use a sensible default".
-A negative timeout indicates that the call should be allowed to run indefintely... use with care!!
+A negative timeout indicates that the call should be allowed to run indefinitely... use with care!!
 
 The **softReset()** method of **MaximaInteractiveProcess** executes the Maxima call **[kill(all),reset()]**,
 which resets most of Maxima's state. Consult the Maxima documentation for more information on this.
@@ -255,10 +257,11 @@ I've tested successfully Jacomax on the following setups using **JacomaxSimpleCo
 so far:
 
 * Linux (RHEL4)/CLISP 2.46/Maxima 5.16.3
-* Liunx (RHEL4)/CLISP 2.48/Maxima 5.20.1
+* Linux (RHEL4)/CLISP 2.48/Maxima 5.20.1
 * Linux (Scientific Linux 5.3)/SBCL 1.0.30/Maxima 5.20.1
 * Linux (Scientific Linux 7.x)/Maxima 5.41.1
 * Mac OS X (10.6)/SBCL 1.0.29/Maxima 5.19.3 (standard download, installed in /Applications)
 * Mac OS X (10.6)/SBCL 1.0.29/Maxima 5.21.1 (standard download, installed in /Applications)
 * Mac OS X (10.6)/SBCL 1.0.29/Maxima 5.18.1 (via MacPorts)
+* Mac OS X (10.15)/SBCL 2.1.9/Maxima 5.45.1 (via MacPorts)
 * Windows XP (SP 3)/GCL 2.6.8/Maxima 5.20.1 (standard download)

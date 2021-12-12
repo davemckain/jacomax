@@ -21,7 +21,11 @@ All Rights Reserved
     <moduleSet>
       <useAllReactorProjects>true</useAllReactorProjects>
       <includes>
-        <include>uk.ac.ed.ph.jacomax:jacomax</include>
+        <!--
+        NB: The following will include the main jacomax module as well.
+        I found I needed to do it this way to make sure we get the additional
+        slf4j-simple JAR in the binary distribution.
+        -->
         <include>uk.ac.ed.ph.jacomax:jacomax-samples</include>
       </includes>
       <binaries>
