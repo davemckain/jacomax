@@ -200,7 +200,7 @@ It probably makes sense to download (or view) the source code so that you can se
 You can run these samples on the command line with something like:
 
 ```sh
-$ java -classpath jacomax-nnn.jar:jacomax-samples-nnn.jar:slf4j-api-nnn.jar:slf4j-log4j-nnn.jar:log4j-nnn.jar uk.ac.ed.ph.jacomax.samples.InteractiveProcessExample
+$ java -classpath jacomax-nnn.jar:jacomax-samples-nnn.jar:slf4j-api-nnn.jar:slf4j-simple-nnn.jar uk.ac.ed.ph.jacomax.samples.InteractiveProcessExample
 ```
 where nnn should be substituted with the version numbers found in your ZIP distribution.
 (You will get a **ClassNotFoundException** if your ClassPath is not set correctly here.)
@@ -209,7 +209,7 @@ If you downloaded the source and are using Maven, you can also run this by chang
 jacomax-samples folder and typing:
 
 ```sh
-$ mvn exec:exec -Dexample.class=uk.ac.ed.ph.jacomax.samples.InteractiveProcessExample
+$ mvn compile exec:exec -Dexample.class=uk.ac.ed.ph.jacomax.samples.InteractiveProcessExample
 ```
 
 ## Troubleshooting
@@ -223,7 +223,7 @@ and execute a trivial call, outputting very detailed logging messages in the pro
 If you downloaded the binary distribution, you can run this with:
 
 ```sh
-$  java -classpath jacomax-nnn.jar:jacomax-samples-nnn.jar:slf4j-api-nnn.jar:slf4j-log4j-nnn.jar:log4j-nnn.jar uk.ac.ed.ph.jacomax.diagnostics.JacomaxDiagnostic
+$  java -classpath jacomax-nnn.jar:jacomax-samples-nnn.jar:slf4j-api-nnn.jar:slf4j-simple-nnn.jar uk.ac.ed.ph.jacomax.diagnostics.JacomaxDiagnostic
 ```
 
 where nnn should be substituted with the version numbers found in your ZIP distribution.
