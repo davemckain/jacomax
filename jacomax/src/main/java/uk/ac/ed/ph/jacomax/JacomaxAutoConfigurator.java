@@ -130,7 +130,7 @@ public final class JacomaxAutoConfigurator {
                 logger.trace("Found file at {}, which will be assumed to be the Maxima executable", location);
                 return location;
             }
-            logger.trace("No potential Maxima executable found at {}");
+            logger.trace("No potential Maxima executable found at {}", location);
         }
         return null;
     }
