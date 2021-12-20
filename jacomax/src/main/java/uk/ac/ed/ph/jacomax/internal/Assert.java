@@ -43,7 +43,7 @@ public final class Assert {
      * @param value object to test
      * @param objectName name to give to supplied Object when constructing Exception message.
      *
-     * @throws IllegalArgumentException if <tt>value</tt> is null.
+     * @throws IllegalArgumentException if <code>value</code> is null.
      */
     public static void notNull(final Object value, final String objectName) {
         if (value==null) {

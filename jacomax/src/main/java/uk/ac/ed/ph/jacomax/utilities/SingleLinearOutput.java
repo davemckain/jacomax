@@ -31,8 +31,8 @@ package uk.ac.ed.ph.jacomax.utilities;
 import java.io.Serializable;
 
 /**
- * Encapsulates all of the components from a single Maxima call generating linear output,
- * such as <tt>string(...);</tt>
+ * Encapsulates all the components from a single Maxima call generating linear output,
+ * such as <code>string(...);</code>
  *
  * @author David McKain
  */

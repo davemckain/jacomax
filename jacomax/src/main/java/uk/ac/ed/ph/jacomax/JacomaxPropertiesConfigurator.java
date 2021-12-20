@@ -73,7 +73,7 @@ import org.slf4j.LoggerFactory;
  *
  * <h2>Properties File Format</h2>
  *
- * See <tt>jacomax.properties.sample</tt> for an example of the required/supported property
+ * See <code>jacomax.properties.sample</code> for an example of the required/supported property
  * names and values.
  *
  * @see MaximaConfiguration
@@ -87,13 +87,11 @@ public final class JacomaxPropertiesConfigurator {
     private static final Logger logger = LoggerFactory.getLogger(JacomaxPropertiesConfigurator.class);
 
     /** Enumerates the various locations to search in. */
-    public static enum PropertiesSearchLocation {
-
+    public enum PropertiesSearchLocation {
         CURRENT_DIRECTORY,
         USER_HOME_DIRECTORY,
         CLASSPATH,
         SYSTEM,
-        ;
     }
 
     /** Default properties resource name, used if nothing explicit stated */

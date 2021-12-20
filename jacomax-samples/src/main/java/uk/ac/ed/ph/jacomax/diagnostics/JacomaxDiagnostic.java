@@ -53,7 +53,7 @@ public class JacomaxDiagnostic {
 
     private static final Logger logger = LoggerFactory.getLogger(JacomaxDiagnostic.class);
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(final String[] args) {
         try {
             final MaximaConfiguration configuration = JacomaxSimpleConfigurator.configure();
             final MaximaProcessLauncher launcher = new MaximaProcessLauncher(configuration);

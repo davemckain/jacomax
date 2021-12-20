@@ -218,7 +218,7 @@ public final class MaximaProcessController {
             List<Future<Object>> callResults;
             if (callTimeout > 0) {
                 /* Wait until timeout */
-                logger.trace("Invoking maxima call using timeout {}s", Integer.valueOf(callTimeout));
+                logger.trace("Invoking maxima call using timeout {}s", callTimeout);
                 callResults = executor.invokeAll(callables, callTimeout, TimeUnit.SECONDS);
             }
             else {
@@ -411,12 +411,11 @@ public final class MaximaProcessController {
             while (!maximaStdoutFinished && !outputHandlerSaysStop /*&& !isSignalledTerminating()*/) {
                 if (logger.isTraceEnabled()) {
                     logger.trace("Maxima Read Loop: maximaStdoutFinished={},"
-                            + "stdoutAvailable={},outputHandlerSaysStop={}",
-                            new Object[] {
-                                    maximaStdoutFinished,
-                                    maximaStdout.available(),
-                                    outputHandlerSaysStop
-                            });
+                                + "stdoutAvailable={},outputHandlerSaysStop={}",
+                            maximaStdoutFinished,
+                            maximaStdout.available(),
+                            outputHandlerSaysStop
+                            );
                 }
                 checkMaximaStderr();
                 final int bytesReadFromMaxima = maximaStdout.read(maximaStdoutBuffer);

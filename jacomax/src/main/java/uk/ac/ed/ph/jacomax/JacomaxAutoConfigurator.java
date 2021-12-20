@@ -157,7 +157,7 @@ public final class JacomaxAutoConfigurator {
 
     private static final String WINDOWS_MAXIMA_FOLDER_PREFIX = "Maxima-";
 
-    private static FilenameFilter windowsMaximaFolderFilter = new FilenameFilter() {
+    private static final FilenameFilter windowsMaximaFolderFilter = new FilenameFilter() {
         public boolean accept(final File dir, final String name) {
             return name.startsWith(WINDOWS_MAXIMA_FOLDER_PREFIX);
         }

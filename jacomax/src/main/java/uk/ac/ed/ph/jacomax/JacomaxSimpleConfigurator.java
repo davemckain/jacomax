@@ -45,14 +45,12 @@ public final class JacomaxSimpleConfigurator {
     private static final Logger logger = LoggerFactory.getLogger(JacomaxSimpleConfigurator.class);
 
     /** Enumerate the methods we'll use to obtain a MaximaConfiguration here */
-    public static enum ConfigMethod {
-
+    public enum ConfigMethod {
         /** Use {@link JacomaxAutoConfigurator} */
         AUTO,
 
         /** Use {@link JacomaxPropertiesConfigurator} to search for properties in the default locations */
         PROPERTIES_SEARCH,
-        ;
     }
 
     /**

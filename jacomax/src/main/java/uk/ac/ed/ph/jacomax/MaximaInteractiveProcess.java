@@ -53,8 +53,8 @@ package uk.ac.ed.ph.jacomax;
  */
 public interface MaximaInteractiveProcess {
 
-    public static final int PROCESS_ALREADY_TERMINATED = -1;
-    public static final int PROCESS_FORCIBLY_DESTROYED = -2;
+    int PROCESS_ALREADY_TERMINATED = -1;
+    int PROCESS_FORCIBLY_DESTROYED = -2;
 
     /**
      * Returns the default call timeout for this process.
@@ -75,9 +75,9 @@ public interface MaximaInteractiveProcess {
      * {@link MaximaTimeoutException} is thrown.
      *
      * @param maximaInput Maxima code to call. This should include any required
-     *   terminator characters (e.g. <tt>;</tt> or <tt>$</tt>) as expected by Maxima.
-     *   We also support calls containing <tt>:lisp</tt>, which are expected to end
-     *   with a <tt>)</tt> character.
+     *   terminator characters (e.g. <code>;</code> or <code>$</code>) as expected by Maxima.
+     *   We also support calls containing <code>:lisp</code>, which are expected to end
+     *   with a <code>)</code> character.
      *
      * @return raw Maxima output
      *
@@ -136,7 +136,7 @@ public interface MaximaInteractiveProcess {
 
     /**
      * Performs a "soft reset" of the process by calling
-     * <tt>[kill(all),reset()];</tt>, which has the effect of clearing up
+     * <code>[kill(all),reset()];</code>, which has the effect of clearing up
      * <em>most</em> things that you might have done. Consult the Maxima documentation
      * for more details.
      *

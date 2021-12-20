@@ -66,7 +66,7 @@ public class MaximaConfiguration implements Serializable, Cloneable {
 
     /**
      * This allows you to pass any required environment variables to Maxima,
-     * as described in {@link Runtime#exec(String[], String[])} as <tt>envp</tt>.
+     * as described in {@link Runtime#exec(String[], String[])} as <code>envp</code>.
      * <p>
      * This may be null (or empty) if you don't need to specify anything here.
      */
@@ -76,7 +76,7 @@ public class MaximaConfiguration implements Serializable, Cloneable {
      * Character encoding used by Maxima when running a {@link MaximaInteractiveProcess},
      * which is usually a property of the underlying Lisp platform it's running on.
      * <p>
-     * If null, we will use a default value of <tt>US-ASCII</tt>, which is probably fine
+     * If null, we will use a default value of <code>US-ASCII</code>, which is probably fine
      * in most situations.
      */
     private String maximaCharset;
