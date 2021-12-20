@@ -31,8 +31,7 @@ package uk.ac.ed.ph.jacomax.utilities;
 import java.util.Arrays;
 import java.util.Collection;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -46,7 +45,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class MaximaOutputUtilitiesParseSingleLinearOutputTest {
 
-    public static Collection<Object[]> TEST_DATA = Arrays.asList(new Object[][] {
+    public static final Collection<Object[]> TEST_DATA = Arrays.asList(new Object[][] {
             /* (Real MathML output example) */
             { "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mn>1</mn> </math>\n(%o2)                                false\n",
               "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <mn>1</mn> </math>\n",
@@ -56,7 +55,7 @@ public class MaximaOutputUtilitiesParseSingleLinearOutputTest {
     });
 
     @Parameters
-    public static Collection<Object[]> data() throws Exception {
+    public static Collection<Object[]> data() {
         return TEST_DATA;
     }
 

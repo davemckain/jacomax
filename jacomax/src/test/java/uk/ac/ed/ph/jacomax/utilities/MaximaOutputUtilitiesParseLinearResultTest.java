@@ -31,8 +31,7 @@ package uk.ac.ed.ph.jacomax.utilities;
 import java.util.Arrays;
 import java.util.Collection;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -46,7 +45,7 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(Parameterized.class)
 public class MaximaOutputUtilitiesParseLinearResultTest {
 
-    public static Collection<Object[]> TEST_DATA = Arrays.asList(new Object[][] {
+    public static final Collection<Object[]> TEST_DATA = Arrays.asList(new Object[][] {
             { "1", "1" },
             { "\"1\"", "\"1\"" },
             { "1\\\n2", "12" },
@@ -55,7 +54,7 @@ public class MaximaOutputUtilitiesParseLinearResultTest {
     });
 
     @Parameters
-    public static Collection<Object[]> data() throws Exception {
+    public static Collection<Object[]> data() {
         return TEST_DATA;
     }
 

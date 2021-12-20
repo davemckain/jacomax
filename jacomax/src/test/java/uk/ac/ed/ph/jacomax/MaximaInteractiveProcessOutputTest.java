@@ -30,9 +30,8 @@ package uk.ac.ed.ph.jacomax;
 
 import uk.ac.ed.ph.jacomax.utilities.MaximaOutputUtilities;
 
-import junit.framework.Assert;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
